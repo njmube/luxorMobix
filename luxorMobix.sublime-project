@@ -1,0 +1,80 @@
+{
+	"build_systems":
+	[
+	],
+	"folders":
+	[
+		{
+			"name": "RottFoleder",
+			"path": ".",
+			"folder_exclude_patterns": ["*"],
+			"file_exclude_patterns": ["*.log","*.project","*.classpath","*.sublime-project"]
+		},
+		{
+			"name": "Configuration",
+			"path": "grails-app/conf"
+		},
+		{
+			"name": "Controllers",
+			"path": "grails-app/controllers"
+		},
+		{
+			"name": "Domain Objects",
+			"path": "grails-app/domain"
+		},
+		{
+			"name": "Internationalization",
+			"path": "grails-app/i18n"
+		},
+		{
+			"name": "Services",
+			"path": "grails-app/services"
+		},
+		{
+			"name": "Tag Libraries",
+			"path": "grails-app/taglib"
+		},
+		{
+			"name": "Utils",
+			"path": "grails-app/utils"
+		},
+		{
+			"name": "Views",
+			"path": "grails-app/views"
+		},
+		{
+			"name": "Scripts",
+			"path": "scripts"
+		},
+		{
+			"name": "Groovy Source",
+			"path": "src/groovy"
+		},
+		{
+			"name": "Java Source",
+			"path": "src/java"
+		},
+		{
+			"name": "Integeration Tests",
+			"path": "test/integration"
+		},
+		{
+			"name": "Unit Tests",
+			"path": "test/unit"
+		},
+		{
+			"name": "Web App",
+			"path": "web-app"
+		},
+		{
+			"name": "Templates",
+			"path": "src/templates"
+		},
+		{
+			"path": "grails-app/migrations"
+		}
+	],
+	"settings":
+	{
+	}
+}
