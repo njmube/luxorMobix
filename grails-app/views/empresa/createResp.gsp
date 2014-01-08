@@ -1,5 +1,4 @@
-<%@ page import="com.luxsoft.mobix.Empresa" %>
-<!doctype html>
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta name="layout" content="main">
@@ -11,7 +10,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="create-empresa" class="content scaffold-create" role="main">
@@ -26,9 +25,18 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form action="save"  enctype="multipart/form-data">
+			<g:form url="[resource:empresaInstance, action:'save']"  enctype="multipart/form-data">
 				<fieldset class="form">
-					<f:all bean="empresaInstance"/>
+					<%--<g:render template="form"/>--%>
+					<f:with bean="${empresaInstance }">
+						<f:field property="nombre"></f:field>
+						<f:field property="rfc"/>
+						<f:field property="direccion"/>
+						<f:field property="certificadoDigital"/>
+						<f:field property="certificadoDigitalPfx"/>
+						<f:field property="passwordPfx"/>
+						<f:field property="llavePrivada"/>
+					</f:with>
 				</fieldset>
 				<fieldset class="buttons">
 					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />

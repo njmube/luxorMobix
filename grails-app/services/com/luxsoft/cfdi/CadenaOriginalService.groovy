@@ -14,8 +14,10 @@ import mx.gob.sat.cfd.x3.ComprobanteDocument;
 import grails.transaction.Transactional
 
 
-@Transactional
+
 class CadenaOriginalService {
+	
+	def grailsApplication
 
     def String generarCadenaOriginal(ComprobanteDocument document) {
 		String xsltPath='sat/cadenaoriginal_3_2.xslt'

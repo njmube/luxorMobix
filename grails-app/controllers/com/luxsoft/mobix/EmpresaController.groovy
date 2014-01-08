@@ -8,7 +8,6 @@ import org.springframework.security.access.annotation.Secured;
 
 import grails.transaction.Transactional
 
-
 @Transactional(readOnly = true)
 @Secured(['ROLE_ADMIN'])
 class EmpresaController {

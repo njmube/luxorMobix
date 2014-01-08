@@ -21,10 +21,10 @@ class Direccion {
 		calle(blank:false,minSize:1,maxSize:200)
 		numeroExterior(blank:false,minSize:1,maxSize:50)
 		numeroInterior(nullable:true,minSize:1,maxSize:50)
-		colonia()
-		municipio()
-		codigoPostal()
-		estado()
+		colonia(blank:false)
+		municipio(blank:false)
+		codigoPostal(blank:false)
+		estado(blank:false)
 		pais(blank:false,minSize:1,maxSize:100)
 	}
 	

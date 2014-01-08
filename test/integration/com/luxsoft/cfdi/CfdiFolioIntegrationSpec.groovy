@@ -2,6 +2,8 @@ package com.luxsoft.cfdi
 
 
 
+import com.luxsoft.mobix.Empresa;
+
 import spock.lang.*
 
 /**
@@ -11,17 +13,21 @@ class CfdiFolioIntegrationSpec extends Specification {
 
     
 
-    void "Salvar un folio nuevo"() {
-		given:'Un folio nuevo'
-		def folio=CfdiFolio.build(serie:'SERIE1')
+    void "Persistencia de folios para una empresa"() {
 		
-		when:'Salvamos el folio'
-		folio.save()
+		given:'Una empresa existente'
+		def empresa=Empresa.build()
 		
-		then:'El nuevo folio es persistido en la base de datos'
-		folio.errors.errorCount==0
-		folio.id
-		CfdiFolio.get(folio.id).serie=='SERIE1'
+		when:'Agregamos folios a la empresa'
+		//def folio1=CfdiFolio.buildWithoutSave(serie:'SERIE1',empresa:empresa)
+		//def folio2=CfdiFolio.buildWithoutSave(serie:'SERIE2',empresa:empresa)
+		empresa.folioDeVentas=CfdiFolio.buildWithoutSave(serie:'SERIE1')
+		empresa.folioNotasDeCredito=CfdiFolio.buildWithoutSave(serie:'SERIE2')
+		empresa.save(failOnError:true)
+		
+		then:'Los folios se persisten en la base de datos'
+		Empresa.get(empresa.id).folioDeVentas.serie=='SERIE1'
+		Empresa.get(empresa.id).folioNotasDeCredito.serie=='SERIE2'
     }
 	
 	void "Actualizar un folio"(){
@@ -39,17 +45,5 @@ class CfdiFolioIntegrationSpec extends Specification {
 		CfdiFolio.get(found.id).folio==10
 		
 		
-	}
-	
-	void 'Localizar folio por serie'(){
-		given:'Un folio existente'
-		def folio=CfdiFolio.build(serie:'SERIE1',rfc:'CARR700317575').save(failOnError:true)
-		
-		when:'Buscamos el folio por serie'
-		def found=CfdiFolio.buscarPorRfcAndSerie("CARR700317575","SERIE1")
-		
-		then:'El folio es localizado'
-		found
-		CfdiFolio.get(found.id).serie=='SERIE1'
 	}
 }

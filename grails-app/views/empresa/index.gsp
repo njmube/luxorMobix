@@ -21,19 +21,21 @@
 				<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<table>
-				<thead>
+			<thead>
 					<tr>
+					
 						<g:sortableColumn property="nombre" title="${message(code: 'empresa.nombre.label', default: 'Nombre')}" />
 					
 						<g:sortableColumn property="rfc" title="${message(code: 'empresa.rfc.label', default: 'Rfc')}" />
 					
 						<th><g:message code="empresa.direccion.label" default="Direccion" /></th>
-						
-						<th><g:message code="empresa.certificadoDigital.label" default="Certificado" />
-						<th><g:message code="empresa.certificadoDigitalPfx.label" default="Certificado Pfx" />
-						<th><g:message code="empresa.llavePrivada.label" default="Pk" />
-						<g:sortableColumn property="lastUpdated" title="${message(code: 'empresa.lastUpdated.label', default: 'Modificado')}" />
-						
+					
+						<g:sortableColumn property="regimen" title="${message(code: 'empresa.regimen.label', default: 'Regimen')}" />
+					
+						<g:sortableColumn property="numeroDeCertificado" title="${message(code: 'empresa.numeroDeCertificado.label', default: 'Numero De Certificado')}" />
+					
+						<g:sortableColumn property="certificadoDigital" title="${message(code: 'empresa.certificadoDigital.label', default: 'Certificado Digital')}" />
+					
 					</tr>
 				</thead>
 				<tbody>
@@ -44,21 +46,13 @@
 					
 						<td>${fieldValue(bean: empresaInstance, field: "rfc")}</td>
 					
-						<td>${fieldValue(bean: empresaInstance, field: "direccion.calle")}</td>
+						<td>${fieldValue(bean: empresaInstance, field: "direccion")}</td>
 					
-						<td>
-							<g:checkBox name="certificadoDigital" checked="${empresaInstance.certificadoDigital }" disabled="true"/>
-						</td>
-						<td>
-							<g:checkBox name="certificadoDigitalPfx" checked="${empresaInstance.certificadoDigitalPfx }" disabled="true"/>
-						</td>
-						<td>
-							<g:checkBox name="llavePrivada" checked="${empresaInstance.llavePrivada }" disabled="true"/>
-						</td>
-						<td>
-							<lux:modificado date="${empresaInstance.lastUpdated }"/>
-							
-						</td>
+						<td>${fieldValue(bean: empresaInstance, field: "regimen")}</td>
+					
+						<td>${fieldValue(bean: empresaInstance, field: "numeroDeCertificado")}</td>
+					
+						<td>${fieldValue(bean: empresaInstance, field: "certificadoDigital")}</td>
 					
 					</tr>
 				</g:each>

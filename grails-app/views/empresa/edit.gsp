@@ -1,5 +1,5 @@
 <%@ page import="com.luxsoft.mobix.Empresa" %>
-<!DOCTYPE html>
+<!doctype html>
 <html>
 	<head>
 		<meta name="layout" content="main">
@@ -11,7 +11,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
@@ -27,18 +27,15 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form url="[resource:empresaInstance, action:'update']" method="PUT"  enctype="multipart/form-data">
+			<g:form method="post"  enctype="multipart/form-data">
+				<g:hiddenField name="id" value="${empresaInstance?.id}" />
 				<g:hiddenField name="version" value="${empresaInstance?.version}" />
 				<fieldset class="form">
-					<f:with bean="${empresaInstance }">
-						<f:field property="nombre"></f:field>
-						<f:field property="rfc"/>
-						<f:field property="direccion"/>
-						<f:field property="certificadoDigital"/>
-					</f:with>
+					<f:all bean="empresaInstance"/>
 				</fieldset>
 				<fieldset class="buttons">
 					<g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" />
+					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>
 		</div>

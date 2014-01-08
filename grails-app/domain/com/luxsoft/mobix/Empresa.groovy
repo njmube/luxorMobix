@@ -7,13 +7,14 @@ import java.security.PrivateKey;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.List;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 
-import groovy.transform.ToString;
+import com.luxsoft.cfdi.CfdiFolio;
 
 
-@ToString(includeNames=true,excludes="certificadoDigital")
+
 class Empresa {
 	
 	String nombre
@@ -28,10 +29,15 @@ class Empresa {
 	
 	X509Certificate certificado
 	PrivateKey privateKey
+	String cfdiPath
+	//List folios=[]
 	
 	Date dateCreated
 	Date lastUpdated
-	
+	CfdiFolio folioDeVentas
+	CfdiFolio folioNotasDeCredito
+	//static hasOne =[folioVenta:CfdiFolio]
+	//static hasMany = [folios:CfdiFolio]
 	
 	static embedded = ['direccion']
 
@@ -45,9 +51,17 @@ class Empresa {
 		certificadoDigitalPfx(nullable:true,maxSize:1024*1024*2) 
 		llavePrivada(nullable:true,maxSize:1024*1024*2) 
 		passwordPfx(nullable:true)
+		cfdiPath(nullable:true,maxSize:250)
+		folioDeVentas(nullable:true)
+		folioNotasDeCredito(nullable:true)
     }
 	
-	static transients = ['certificado','certificadoPfx']
+	static mapping = {
+		folios lazy:false
+		folios cascade: "all-delete-orphan"
+	}
+	
+	static transients = ['certificado','certificadoPfx','privateKey']
 	
 	X509Certificate getCertificado(){
 		if(!certificado && getCertificadoDigital()){
@@ -77,7 +91,7 @@ class Empresa {
 	}
 	
 	PrivateKey getPrivateKey(){
-		if(privateKey==null){
+		if(privateKey==null && !llavePrivada){
 			final byte[] encodedKey=llavePrivada
 			PKCS8EncodedKeySpec keySpec=new PKCS8EncodedKeySpec(encodedKey);
 			try {

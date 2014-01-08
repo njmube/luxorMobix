@@ -15,6 +15,7 @@ testDataConfig {
 				,codigoPostal:'37296'
 				,pais:'MEXICO'
 			)
+			rfc='XAXX010101000'
 		}
 		
 		'com.luxsoft.mobix.Cliente'{
@@ -28,6 +29,7 @@ testDataConfig {
 				,codigoPostal:'37296'
 				,pais:'MEXICO'
 			)
+			rfc='XAXX010101000'
 		}
         
     }

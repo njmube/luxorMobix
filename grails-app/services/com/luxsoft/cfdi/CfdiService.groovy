@@ -2,9 +2,13 @@ package com.luxsoft.cfdi
 
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -23,11 +27,11 @@ import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante.Impuestos.Traslados;
 import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante.Impuestos.Traslados.Traslado;
 
 import org.apache.commons.lang.StringUtils;
-
-
-
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlDateTime;
+import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+import org.apache.xmlbeans.XmlValidationError;
 import org.bouncycastle.util.encoders.Base64;
 
 import com.luxsoft.mobix.Cliente;
@@ -35,6 +39,7 @@ import com.luxsoft.mobix.Direccion;
 import com.luxsoft.mobix.Empresa;
 import com.luxsoft.mobix.VentaDet
 import com.luxsoft.mobix.Venta;
+
 import com.luxsoft.utils.MonedaUtils;
 
 import grails.transaction.Transactional
@@ -42,9 +47,12 @@ import grails.transaction.Transactional
 @Transactional
 class CfdiService {
 	
-	def cadenaOriginalService 
+	def cadenaOriginalService
+	
 	
 	def selladorService
+	
+	
 
     def Cfdi generarCfdi(def source) {
 		
@@ -52,10 +60,10 @@ class CfdiService {
 		Comprobante comprobante=document.addNewComprobante()
 		depurar(document)
 		comprobante.setVersion("3.2")
-		comprobante.setFecha(getFecha())
+		comprobante.setFecha(CFDIUtils.toXmlDate(new Date()).getCalendarValue())
 		comprobante.setFormaDePago("PAGO EN UNA SOLA EXHIBICION")
 		comprobante.setMetodoDePago("NO IDENTIFICADO")
-		comprobante.setTipoCambio(source.tc)
+		comprobante.setTipoCambio(source.tc.toString())
 		comprobante.setMoneda(source.moneda.getCurrencyCode())
 		
 		//Especificos por el tipo de operacion
@@ -68,7 +76,7 @@ class CfdiService {
 		
 		// Expedido en
 		TUbicacion ubicacion=comprobante.getEmisor().addNewExpedidoEn()
-		fillUbicacion(ubicacion, empresa.direccion)
+		CFDIUtils.generarUbicacion(empresa.direccion,ubicacion)
 		
 		//Receptor
 		Receptor receptor=registrarReceptor(comprobante, source.cliente)
@@ -100,22 +108,10 @@ class CfdiService {
 		comprobante.setCertificado(new String(encodedCert))
 		comprobante.setNoCertificado(empresa.numeroDeCertificado)
 		
-		def cfdi=new Cfdi(
-			serie:comprobante.getSerie()
-			,folio:comprobante.getFolio()
-			,fecha: source.fecha,  
-			)
-
+		def cfdi=build(comprobante, source)
+		cfdi.cadenaOriginal=cadena
+		return cfdi;
     }
-	
-	Calendar getFecha(){
-		Calendar c=Calendar.getInstance()
-		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-		XmlDateTime xmlDateTime = XmlDateTime.Factory.newInstance()
-		xmlDateTime.setStringValue(df.format(c.getTime()))
-		return xmlDateTime.getCalendarValue()
-	}
-	
 	
 	void depurar(ComprobanteDocument document){
 		XmlCursor cursor=document.newCursor()
@@ -126,32 +122,6 @@ class CfdiService {
 			cursor.insertNamespace("cfdi", "http://www.sat.gob.mx/cfd/3")
 		}
 	}
-	
-	TUbicacionFiscal fillDomicilioFiscal(final Direccion direccion,final TUbicacionFiscal domicilio){
-		domicilio.setCalle(direccion.calle)
-		domicilio.setCodigoPostal(direccion.codigoPostal)
-		domicilio.setColonia(direccion.colonia)
-		domicilio.setEstado(direccion.estado)
-		domicilio.setMunicipio(direccion.municipio)
-		domicilio.setNoExterior(direccion.numeroExterior)
-		domicilio.setNoInterior(direccion.numeroInterior)
-		domicilio.setPais(direccion.pais)
-		return domicilio
-	}
-	
-	TUbicacion fillUbicacion(TUbicacion ubicacion,Direccion direccion){
-		ubicacion.setCalle(direccion.calle)
-		ubicacion.setCodigoPostal(direccion.codigoPostal)
-		ubicacion.setColonia(direccion.colonia)
-		ubicacion.setEstado(direccion.estado)
-		ubicacion.setMunicipio(direccion.municipio)
-		ubicacion.setNoExterior(direccion.numeroExterior)
-		ubicacion.setNoInterior(direccion.numeroInterior)
-		ubicacion.setPais(direccion.pais)
-		return ubicacion
-	}
-	
-	
 	
 	Emisor registrarEmisor(Comprobante comprobante,Empresa empresa){
 		Emisor emisor=comprobante.addNewEmisor()
@@ -164,7 +134,7 @@ class CfdiService {
 			rf.setRegimen(r)
 		}
 		TUbicacionFiscal domicilioFiscal=emisor.addNewDomicilioFiscal()
-		fillDomicilioFiscal(empresa.direccion, domicilioFiscal)
+		CFDIUtils.generarUbicacionFiscal(empresa.direccion, domicilioFiscal)
 		comprobante.setLugarExpedicion(empresa.direccion.pais)
 		return emisor
 	}
@@ -176,18 +146,18 @@ class CfdiService {
 		Direccion direccion=cliente.direccion
 		TUbicacion ubicacion=receptor.addNewDomicilio()
 		if(cliente.rfc!='')
-			fillUbicacion(direccion,receptor.addNewDomicilio())
+			CFDIUtils.generarUbicacion(direccion,ubicacion)
 		return receptor
 	}
 	
 	Conceptos registrarConceptos(Comprobante comprobante,def source){
-		Conceptos conceptos=cfdi.addNewConceptos()
+		Conceptos conceptos=comprobante.addNewConceptos()
 		if(source.class==Venta){
 			for(VentaDet det:source.partidas){
 				Concepto c=conceptos.addNewConcepto()
 				c.setCantidad(det.cantidad.abs())
 				c.setUnidad(det.producto.unidad)
-				c.setNoIdentificacion(det.id)
+				c.setNoIdentificacion(det.id.toString())
 				c.setDescripcion(det.producto.descripcion)
 				c.setValorUnitario(det.precio);
 				c.setImporte(det.importe);
@@ -200,13 +170,89 @@ class CfdiService {
 	}
 	
 	void registrarSerieFolio(Comprobante comprobante,Empresa empresa,def source){
-		CfdiFolio folio=CfdiFolio.buscarPorRfcAndSerie(empresa.rfc, empresa.serieParaVenta)
-		comprobante.setSerie(folio.serie)
-		comprobante.setFolio(folio.next())
+		if(source.class==Venta){
+			CfdiFolio folio=empresa.folioDeVentas
+			assert folio,"No existe folio de ventas registrado para la empresa: $empresa.nombre"
+			comprobante.setSerie(folio.serie.toString())
+			comprobante.setFolio(folio.next().toString())
+		}
+		
 	}
 	
 	void registrarGenerales(Comprobante comprobante,def source){
 		if(source.class==Venta)
 			comprobante.setTipoDeComprobante(TipoDeComprobante.INGRESO)
 	}
+	
+	Cfdi build(Comprobante comprobante,def source){
+		
+		def cfdi=new Cfdi(
+			serie:comprobante.getSerie()
+			,folio:comprobante.getFolio()
+			,tipoDeCfdi:comprobante.getTipoDeComprobante()
+			,fecha:comprobante.fecha.getTime()
+			,emisor:comprobante.getEmisor().getNombre()
+			,receptor:comprobante.getReceptor().getNombre()
+			,rfc:comprobante.getReceptor().getRfc()
+			,subtotal:comprobante.getSubTotal()
+			,impuesto:comprobante.getImpuestos().getTotalImpuestosTrasladados()
+			,total:comprobante.getTotal()
+			,numeroDeCertificado:comprobante.getNoCertificado()
+			)
+		if(source.class==Venta){
+			cfdi.tipo='FACTURA'
+			
+		}
+		cfdi.origen=source.id
+		return cfdi
+	}
+	
+	def salvar(ComprobanteDocument document,Cfdi cf,Empresa empresa) {
+		
+		validarDocumento(document)
+		
+		Comprobante comprobante=document.getComprobante();
+		XmlOptions options = new XmlOptions();
+		options.setCharacterEncoding("UTF-8");
+		options.put( XmlOptions.SAVE_INNER );
+		options.put( XmlOptions.SAVE_PRETTY_PRINT );
+		options.put( XmlOptions.SAVE_AGGRESSIVE_NAMESPACES );
+		options.put( XmlOptions.SAVE_USE_DEFAULT_NAMESPACE );
+		options.put(XmlOptions.SAVE_NAMESPACES_FIRST);
+		
+		ByteArrayOutputStream os=new ByteArrayOutputStream();
+		document.save(os, options);
+		cf.setXml(os.toByteArray());
+		cf.setXmlPath(cf.getSerie()+"-"+cf.getFolio()+".xml");
+		cf.save()
+		
+		File dir=new File(empresa.cfdiPath)
+		if(!dir.exists())
+			assert dir.mkdir(),"Imposible generar directorio: "+empresa.cfdiPath
+		assert dir.exists(),"No existe el directorio para cfdi "+dir
+		File xmlFile=new File(dir,cf.xmlPath);
+		document.save(xmlFile,options);
+		return cf;
+	}
+	
+	void validarDocumento(ComprobanteDocument document) {
+		List<XmlValidationError> errores=findErrors(document);
+		if(errores.size()>0){
+			StringBuffer buff=new StringBuffer();
+			for(XmlValidationError e:errores){
+				buff.append(e.getMessage()+"\n");
+			}
+			throw new RuntimeException("Datos para generar el comprobante fiscal (CFD) incorrectos "+buff.toString());
+		}
+	}
+	
+	List findErrors(final XmlObject node){
+		final XmlOptions options=new XmlOptions();
+		final List errors=new ArrayList();
+		options.setErrorListener(errors);
+		node.validate(options);
+		return errors;
+		
+	}
+	
 }

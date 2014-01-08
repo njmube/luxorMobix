@@ -42,6 +42,7 @@ grails.project.dependency.resolution = {
         mavenCentral()
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
 		mavenRepo "http://snapshots.repository.codehaus.org"
+		mavenRepo "http://luxsoftnet.com/m2/repository"
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
@@ -53,6 +54,7 @@ grails.project.dependency.resolution = {
 		//CFDI
 		compile 'org.apache.xmlbeans:xmlbeans:2.4.0'
 		compile 'com.luxsoft:cfdi:2.3'
+		compile 'org.bouncycastle:bcprov-jdk14:1.45'
     }
 
     plugins {

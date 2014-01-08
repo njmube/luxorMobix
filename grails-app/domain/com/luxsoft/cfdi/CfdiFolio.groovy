@@ -1,8 +1,12 @@
 package com.luxsoft.cfdi
 
+import com.luxsoft.mobix.Empresa;
+import org.apache.commons.lang.builder.EqualsBuilder
+import org.apache.commons.lang.builder.HashCodeBuilder
+
 class CfdiFolio {
 	
-	String rfc
+	
 	Long folio
 	String serie
 	Long folioInicial
@@ -10,9 +14,10 @@ class CfdiFolio {
 	Date asignacion
 	Integer numeroDeAprobacion
 	Integer anoAprobacion
+	
+	//static belongsTo = [empresa:Empresa]
 
     static constraints = {
-		rfc(minSize:12,maxSize:13)
 		folio()
 		serie(unique:true)
 		folioInicial(minSize:0)
@@ -28,7 +33,22 @@ class CfdiFolio {
 		return next
 	}
 	
-	static buscarPorRfcAndSerie(String rfc,String serie){
-		return CfdiFolio.findByRfcAndSerie(rfc,serie)
+	@Override
+	public boolean equals(Object obj) {
+		if(! (obj.instanceOf(CfdiFolio)) )
+			return false
+		if(this.is(obj))
+			return true
+		def eb=new EqualsBuilder()
+		eb.append(serie, obj.serie)
+		return eb.isEquals()
 	}
+	
+	@Override
+	public int hashCode() {
+		def hcb=new HashCodeBuilder(17,35)
+		hcb.append(serie)
+		return hcb.toHashCode()
+	}
+	
 }
