@@ -77,7 +77,7 @@ grails.project.dependency.resolution = {
 		compile ":spring-security-core:2.0-RC2"
 		test ":build-test-data:2.0.9"
 		compile ":fields:1.3"
-		
+		compile ":twitter-bootstrap:3.0.3"
 		
 		
     }
