@@ -30,14 +30,11 @@ class Empresa {
 	X509Certificate certificado
 	PrivateKey privateKey
 	String cfdiPath
-	//List folios=[]
 	
 	Date dateCreated
 	Date lastUpdated
 	CfdiFolio folioDeVentas
 	CfdiFolio folioNotasDeCredito
-	//static hasOne =[folioVenta:CfdiFolio]
-	//static hasMany = [folios:CfdiFolio]
 	
 	static embedded = ['direccion']
 
@@ -54,6 +51,7 @@ class Empresa {
 		cfdiPath(nullable:true,maxSize:250)
 		folioDeVentas(nullable:true)
 		folioNotasDeCredito(nullable:true)
+		
     }
 	
 	static mapping = {
@@ -64,45 +62,31 @@ class Empresa {
 	static transients = ['certificado','certificadoPfx','privateKey']
 	
 	X509Certificate getCertificado(){
-		if(!certificado && getCertificadoDigital()){
-			try{
-				//java.security.Security.addProvider(new BouncyCastleProvider());
-				CertificateFactory fact= CertificateFactory.getInstance("X.509");
-				InputStream is=new ByteArrayInputStream(getCertificadoDigital());
-				certificado = (X509Certificate)fact.generateCertificate(is);
-				certificado.checkValidity();
+		if(certificado && !certificadoDigital){
+				CertificateFactory fact= CertificateFactory.getInstance("X.509","BC")
+				InputStream is=new ByteArrayInputStream(certificadoDigital)
+				certificado = (X509Certificate)fact.generateCertificate(is)
+				certificado.checkValidity()
 				//is.closeQuietly();
 				is.close();
-				return certificado;
-			}catch (Exception e) {
-				String msg=ExceptionUtils.getRootCauseMessage(e);
-				throw new RuntimeException("Error tratando de leer Certificado: "+msg,e);
-			}
+			this.certificado=certificado
 		}
 		return certificado;
 	}
-	
-	
 	
 	String getCertificadoInfo(){
 		//return getCertificado().getSubjectX500Principal()
 		//getCertificado().get
 		return "$certificado?.subjectX500Principal"
 	}
-	
+	/*
 	PrivateKey getPrivateKey(){
-		if(privateKey==null && !llavePrivada){
+		if(privateKey && llavePrivada){
 			final byte[] encodedKey=llavePrivada
-			PKCS8EncodedKeySpec keySpec=new PKCS8EncodedKeySpec(encodedKey);
-			try {
-				final KeyFactory keyFactory=KeyFactory.getInstance("RSA","BC");
-				privateKey=keyFactory.generatePrivate(keySpec);
-				//log.info("PrivateKey object successfully loaded...");
-				
-			} catch (Exception e) {
-				throw new RuntimeException("Error generando la llave privada", ExceptionUtils.getRootCause(e));
-			}
+			PKCS8EncodedKeySpec keySpec=new PKCS8EncodedKeySpec(encodedKey)
+			final  KeyFactory keyFactory=KeyFactory.getInstance("RSA","BC")
+			this.privateKey=keyFactory.generatePrivate(keySpec)
 		}
 		return privateKey;
-	}
+	}*/
 }

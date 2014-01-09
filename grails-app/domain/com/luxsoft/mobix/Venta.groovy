@@ -86,5 +86,25 @@ class Venta {
 	}
 	
 	
+	Object asType(Class type){
+		if(type==Cfdi){
+			def cfdi=new Cfdi(
+				tipo:'FACTURA'
+				,tipoDeCfdi:'I'
+				,fecha:fecha
+				,origen:id
+				,emisor:cliente.nombre
+				,rfc:cliente.rfc
+				,importe:importe
+				,descuentos:descuentos
+				,subtotal:subtotal
+				,impuesto:impuestos
+				,total:total
+				)
+			return cfdi
+		}else
+			return super.asType(type)
+	}
+	
 	
 }

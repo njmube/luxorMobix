@@ -21,6 +21,8 @@ class Cfdi {
 	String emisor
 	String receptor
 	String rfc
+	BigDecimal importe
+	BigDecimal descuentos
 	BigDecimal subtotal
 	BigDecimal impuesto
 	BigDecimal total
@@ -28,7 +30,7 @@ class Cfdi {
 	
 	String cadenaOriginal
 	
-	String numeroDeCertificado
+	
 	String origen
 	String xmlPath
 	byte[] xml
@@ -58,7 +60,6 @@ class Cfdi {
 		cadenaOriginal maxSize:1024*64, nullable:true //@Column(name="CADENA_ORIGINAL",length=1048576,nullable=true)
 		origen blank:false,maxSize:255
 		tipoDeCfdi inList:['I','E']
-		numeroDeCertificado maxSize:40
 		comentario nullable:true,maxSize:255
     }
 	
