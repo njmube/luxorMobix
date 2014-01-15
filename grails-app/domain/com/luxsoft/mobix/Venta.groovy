@@ -1,6 +1,19 @@
 package com.luxsoft.mobix
 
+import mx.gob.sat.cfd.x3.ComprobanteDocument;
+import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante;
+import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante.Conceptos;
+import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante.Conceptos.Concepto;
+import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante.Emisor;
+import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante.Impuestos;
+import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante.Impuestos.Traslados;
+import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante.Impuestos.Traslados.Traslado;
+import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante.Receptor;
+import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante.TipoDeComprobante;
+
+import com.luxsoft.cfdi.CFDIUtils;
 import com.luxsoft.cfdi.Cfdi;
+import com.luxsoft.utils.MonedaUtils;
 import com.luxsoft.utils.Rounding
 
 class Venta {
@@ -92,8 +105,11 @@ class Venta {
 				tipo:'FACTURA'
 				,tipoDeCfdi:'I'
 				,fecha:fecha
-				,origen:id
+				,serie:'VENTA'
+				,folio:id.toString()
+				,origen:id.toString()
 				,emisor:cliente.nombre
+				,receptor:cliente.nombre
 				,rfc:cliente.rfc
 				,importe:importe
 				,descuentos:descuentos
@@ -102,6 +118,57 @@ class Venta {
 				,total:total
 				)
 			return cfdi
+		}else if(type==ComprobanteDocument){
+			def document=ComprobanteDocument.Factory.newInstance()
+			//CFDIUtils.depurar(document)
+			Comprobante comprobante=document.addNewComprobante()
+			comprobante.setVersion("3.2")
+			comprobante.setFecha(CFDIUtils.toXmlDate(new Date()).getCalendarValue())
+			comprobante.setFormaDePago("PAGO EN UNA SOLA EXHIBICION")
+			comprobante.setMetodoDePago("NO IDENTIFICADO")
+			comprobante.setTipoCambio(this.tc.toString())
+			comprobante.setMoneda(this.moneda.getCurrencyCode())
+			comprobante.setDescuento(this.descuentos)
+			comprobante.setTipoDeComprobante(TipoDeComprobante.INGRESO)
+			comprobante.setLugarExpedicion(this.empresa.direccion.pais)
+			//comprobante.addNewEmisor()
+			Emisor emisor=CFDIUtils.registrarEmisor(comprobante, empresa)
+			Receptor receptor=CFDIUtils.registrarReceptor(comprobante, this.cliente)
+			comprobante.setTotal(this.total)
+			comprobante.setSubTotal(this.importe)
+			comprobante.setSerie('VENTA')
+			comprobante.setFolio(this.id.toString())
+			comprobante.setNoCertificado(this.empresa.numeroDeCertificado)
+			
+			Impuestos impuestos=comprobante.addNewImpuestos()
+			if(this.cliente.rfc=='XAXX010101000'){
+				comprobante.setSubTotal(this.total)
+				comprobante.setDescuento(this.descuentos)
+			}else{
+				impuestos.setTotalImpuestosTrasladados(this.impuestos);
+				Traslados traslados=impuestos.addNewTraslados();
+				Traslado traslado=traslados.addNewTraslado();
+				traslado.setImpuesto(Traslado.Impuesto.IVA);
+				traslado.setImporte(this.impuestos);
+				traslado.setTasa(MonedaUtils.IVA.multiply(BigDecimal.valueOf(100)));
+				comprobante.setDescuento(this.descuentos);
+			}
+			Conceptos conceptos=comprobante.addNewConceptos()
+			
+			this.partidas.each {det->
+				Concepto c=conceptos.addNewConcepto()
+				c.setCantidad(det.cantidad.abs())
+				c.setUnidad(det.producto.unidad)
+				c.setNoIdentificacion(det.id.toString())
+				c.setDescripcion(det.producto.descripcion)
+				c.setValorUnitario(det.precio);
+				c.setImporte(det.importe);
+				if(cliente.rfc=='XAXX010101000'){
+					c.setValorUnitario(det.calcularPercioConImpuesto())
+					c.setImporte(det.calcularImporteConImpuesto())
+				}
+			}
+			return document
 		}else
 			return super.asType(type)
 	}

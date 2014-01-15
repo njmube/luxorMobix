@@ -9,9 +9,12 @@ import java.security.cert.X509Certificate;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.List;
 
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
-import com.luxsoft.cfdi.CfdiFolio;
+import com.luxsoft.cfdi.CFDIUtils;
+
 
 
 
@@ -26,15 +29,14 @@ class Empresa {
 	byte[] certificadoDigitalPfx
 	byte[] llavePrivada
 	String passwordPfx
-	
+	String xmlDirectory
 	X509Certificate certificado
 	PrivateKey privateKey
-	String cfdiPath
+	
 	
 	Date dateCreated
 	Date lastUpdated
-	CfdiFolio folioDeVentas
-	CfdiFolio folioNotasDeCredito
+	
 	
 	static embedded = ['direccion']
 
@@ -48,18 +50,18 @@ class Empresa {
 		certificadoDigitalPfx(nullable:true,maxSize:1024*1024*2) 
 		llavePrivada(nullable:true,maxSize:1024*1024*2) 
 		passwordPfx(nullable:true)
-		cfdiPath(nullable:true,maxSize:250)
-		folioDeVentas(nullable:true)
-		folioNotasDeCredito(nullable:true)
+		xmlDirectory(nullable:true,maxSize:250)
 		
     }
 	
 	static mapping = {
-		folios lazy:false
-		folios cascade: "all-delete-orphan"
+		
 	}
 	
-	static transients = ['certificado','certificadoPfx','privateKey']
+	static transients = ['certificado'
+		,'certificadoPfx'
+		,'privateKey'
+		]
 	
 	X509Certificate getCertificado(){
 		if(certificado && !certificadoDigital){
@@ -75,18 +77,22 @@ class Empresa {
 	}
 	
 	String getCertificadoInfo(){
-		//return getCertificado().getSubjectX500Principal()
-		//getCertificado().get
 		return "$certificado?.subjectX500Principal"
 	}
-	/*
+	
 	PrivateKey getPrivateKey(){
-		if(privateKey && llavePrivada){
+		if(!privateKey && llavePrivada){
 			final byte[] encodedKey=llavePrivada
 			PKCS8EncodedKeySpec keySpec=new PKCS8EncodedKeySpec(encodedKey)
 			final  KeyFactory keyFactory=KeyFactory.getInstance("RSA","BC")
 			this.privateKey=keyFactory.generatePrivate(keySpec)
 		}
 		return privateKey;
-	}*/
+	}
+	
+	String toString(){
+		return "$nombre"
+	}
+	
+	
 }

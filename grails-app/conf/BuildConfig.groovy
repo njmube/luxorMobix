@@ -55,6 +55,10 @@ grails.project.dependency.resolution = {
 		compile 'org.apache.xmlbeans:xmlbeans:2.4.0'
 		compile 'com.luxsoft:cfdi:2.3'
 		compile 'org.bouncycastle:bcprov-jdk14:1.45'
+		//Edico Web services support
+		compile 'axis:axis:1.4' 
+		compile 'com.edicom.ediwinws:cfdiClient:1.0'
+		compile 'org.apache.commons:commons-compress:1.1'
     }
 
     plugins {
@@ -75,7 +79,7 @@ grails.project.dependency.resolution = {
         //runtime ":cached-resources:1.1"
         //runtime ":yui-minify-resources:0.1.5"
 		compile ":spring-security-core:2.0-RC2"
-		test ":build-test-data:2.0.9"
+		compile ":build-test-data:2.0.9"
 		compile ":fields:1.3"
 		compile ":twitter-bootstrap:3.0.3"
 		

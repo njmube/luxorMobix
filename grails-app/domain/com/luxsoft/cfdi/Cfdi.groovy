@@ -7,7 +7,7 @@ import java.io.ByteArrayInputStream
 import mx.gob.sat.cfd.x3.ComprobanteDocument
 import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante
 
-@ToString(includeNames=true,includes="serie,tipo,fecha,uuid")
+@ToString(includeNames=true,includes="id,serie,tipo,fecha,uuid")
 class Cfdi {
 	
 	
@@ -29,18 +29,18 @@ class Cfdi {
 	String comentario
 	
 	String cadenaOriginal
-	
-	
 	String origen
-	String xmlPath
+	String xmlName
 	byte[] xml
+	String url
 	
 		
 
 	
 	
 	ComprobanteDocument comprobanteDocument
-	Comprobante comprobante
+	
+	TimbreFiscal timbreFiscal
 	
 	Date dateCreated
 	Date lastUpdated
@@ -55,32 +55,32 @@ class Cfdi {
 		emisor blank:false,maxSize:600
 		receptor blank:false,maxSize:600
 		rfc blank:false,maxSize:13
-		xmlPath nullable:true,maxSize:200
+		xmlName nullable:true,maxSize:200
 		xml maxSize:(1024 * 512)  // 50kb para almacenar el xml
 		cadenaOriginal maxSize:1024*64, nullable:true //@Column(name="CADENA_ORIGINAL",length=1048576,nullable=true)
 		origen blank:false,maxSize:255
 		tipoDeCfdi inList:['I','E']
 		comentario nullable:true,maxSize:255
+		url nullable:true,url:true
     }
 	
-	static transients = ['comprobante','comprobanteDocument']
+	static transients = ['comprobanteDocument','timbreFiscal']
 	
 	Comprobante getComprobante(){
-		if(comprobante==null){
-			comprobante=getComprobanteDocument().getComprobante();
-		}
-		return comprobante
+		getComprobanteDocument().getComprobante()
 	}
 	
 	public ComprobanteDocument getComprobanteDocument(){
-		if(this.comprobanteDocument==null)
-			loadComprobante();
-		return this.comprobanteDocument;
+		if(this.comprobanteDocument==null){
+			loadComprobante()
+		}
+		return this.comprobanteDocument
 	}
 	
 	void loadComprobante(){
-		ByteArrayInputStream is=new ByteArrayInputStream(getXml());
-		this.comprobanteDocument=ComprobanteDocument.Factory.parse(is);
+		ByteArrayInputStream is=new ByteArrayInputStream(getXml())
+		this.comprobanteDocument=ComprobanteDocument.Factory.parse(is)
+		
 		
 	}
 	

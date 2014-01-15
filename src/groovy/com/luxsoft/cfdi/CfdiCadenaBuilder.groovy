@@ -1,7 +1,6 @@
 package com.luxsoft.cfdi
 
-import java.io.StringWriter;
-import java.io.Writer;
+import mx.gob.sat.cfd.x3.ComprobanteDocument;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -10,26 +9,31 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import mx.gob.sat.cfd.x3.ComprobanteDocument;
-import grails.transaction.Transactional
-
-
-
-class CadenaOriginalService {
+/**
+ * Generador de cadena original
+ * 
+ * @author Ruben Cancino 
+ *
+ */
+class CfdiCadenaBuilder {
 	
-	def grailsApplication
-
-    def String generarCadenaOriginal(ComprobanteDocument document) {
-		String xsltPath='sat/cadenaoriginal_3_2.xslt'
-		File xslt = grailsApplication.mainContext.getResource(xsltPath).file
-		assert xslt.exists(),"No existe el archivo de transformacion XSLT: "+xsltPath
+	File xsltFile
+	
+	/**
+	 * Genera la cadean original de un comprobante fiscal digital
+	 * 
+	 * @return La cadena original
+	 */
+	String generarCadena(ComprobanteDocument document){
 		TransformerFactory factory=TransformerFactory.newInstance()
-		StreamSource source=new StreamSource(xslt.getInputStream());
+		StreamSource source=new StreamSource(xsltFile);
 		Transformer transformer=factory.newTransformer(source);
 		Writer writer=new StringWriter();
 		StreamResult out=new StreamResult(writer);
 		Source so=new DOMSource(document.getDomNode());
 		transformer.transform(so, out);
 		return writer.toString();
-    }
+		
+	}
+
 }

@@ -1,5 +1,8 @@
 package com.luxsoft.mobix
 
+import com.luxsoft.cfdi.CFDIUtils;
+
+
 import groovy.transform.ToString;
 
 @ToString(includeNames=true,includes=["nombre,rfc,direccion"])
@@ -18,6 +21,8 @@ class Cliente {
     static constraints = {
 		nombre(blank:false,maxSize:255,unique:true)
 		rfc(blank:false,minSize:12,maxSize:13)
-		direccion(blank:false)
+		direccion(nullable:false)
     }
+	
+	
 }

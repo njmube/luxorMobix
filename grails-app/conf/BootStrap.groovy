@@ -1,3 +1,5 @@
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import com.luxsoft.sec.Role;
 import com.luxsoft.sec.User;
 import com.luxsoft.sec.UserRole;
@@ -19,6 +21,7 @@ class BootStrap {
 			guest=new User(username:'guest',password:'password').save(flush:true)
 			UserRole.create(guest,userRole,true)
 		}
+		java.security.Security.addProvider(new BouncyCastleProvider())
     }
     def destroy = {
     }

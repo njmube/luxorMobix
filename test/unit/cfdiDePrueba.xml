@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd" version="3.2" fecha="2013-12-31T02:03:57" tipoDeComprobante="ingreso" formaDePago="PAGO EN UNA SOLA EXHIBICION" metodoDePago="NO IDENTIFICADO" Moneda="MXN" TipoCambio="1.0" LugarExpedicion="México" total="83.2532" subTotal="71.77" serie="TACARCRE" folio="1685" sello="DPH/kbk5b58JJp90qMXf75xqGq9SuZ4apypuMXqr/v2fYItfBsWXLJpTfV3NeCS97A060XW/3cgxRSQ3VJQ/Tb8EzQKOZdvpnPhHcz9g606aaUIuxvsTr136znzSRJNDpdFbcEPJwJgu+7tYO3VjvkhymRhreG2H5zBRcFfP5KI=" certificado="MIIEajCCA1KgAwIBAgIUMDAwMDEwMDAwMDAyMDIxNzEzMTgwDQYJKoZIhvcNAQEFBQAwggGVMTgwNgYDVQQDDC9BLkMuIGRlbCBTZXJ2aWNpbyBkZSBBZG1pbmlzdHJhY2nDs24gVHJpYnV0YXJpYTEvMC0GA1UECgwmU2VydmljaW8gZGUgQWRtaW5pc3RyYWNpw7NuIFRyaWJ1dGFyaWExODA2BgNVBAsML0FkbWluaXN0cmFjacOzbiBkZSBTZWd1cmlkYWQgZGUgbGEgSW5mb3JtYWNpw7NuMSEwHwYJKoZIhvcNAQkBFhJhc2lzbmV0QHNhdC5nb2IubXgxJjAkBgNVBAkMHUF2LiBIaWRhbGdvIDc3LCBDb2wuIEd1ZXJyZXJvMQ4wDAYDVQQRDAUwNjMwMDELMAkGA1UEBhMCTVgxGTAXBgNVBAgMEERpc3RyaXRvIEZlZGVyYWwxFDASBgNVBAcMC0N1YXVodMOpbW9jMRUwEwYDVQQtEwxTQVQ5NzA3MDFOTjMxPjA8BgkqhkiG9w0BCQIML1Jlc3BvbnNhYmxlOiBDZWNpbGlhIEd1aWxsZXJtaW5hIEdhcmPDrWEgR3VlcnJhMB4XDTEyMTAxODIzMDQ0NloXDTE2MTAxODIzMDQ0NlowgasxFzAVBgNVBAMTDlBBUEVMIFNBIERFIENWMRcwFQYDVQQpEw5QQVBFTCBTQSBERSBDVjEXMBUGA1UEChMOUEFQRUwgU0EgREUgQ1YxJTAjBgNVBC0THFBBUDgzMDEwMUNSMyAvIFNBTEM0ODA0MTVETTkxHjAcBgNVBAUTFSAvIFNBTEM0ODA0MTVNREZOWk4wODEXMBUGA1UECxMOUEFQRUwgU0EgREUgQ1YwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAN3+HYecRLwDYpun71Hn1n6Aa8uKbZmdiIFmo3bBmHsUvQOa1qv3dWRvR+mGKol8NB0tobjEcnxzUbWyI9OyTD50Noj5TQlpcFgf2c0A8/aAoK0DYhOev44uxuc//9ujs13/aRGDtlWVniCbI7AvfC+Dty8TJQadHAGSFDIgriuFAgMBAAGjHTAbMAwGA1UdEwEB/wQCMAAwCwYDVR0PBAQDAgbAMA0GCSqGSIb3DQEBBQUAA4IBAQAaW6NohKMYOsRKdZBeBRQbT1WhL8rrDEwzWPaQ9vNqmVpp3vQEHiXxw6P+WPSizjV7mXFDGz2DTiBMRWf1dH6Oj4SBurdOEARwg5dMh72ujWRYeXLsdLH6a2KvrlDLFDxUSfPR0eyiOGMQ5GmINXsbEwV/sHwtGwK0U0W+jAAB+uP1AJTn4wKImbLdCBc6MQni3C3NXb1+LyDQmoQjuJEONgXpMWA/MRygOOoE4CHuabNMAbSKVkyDtWYCAfKAR1b//IhdGaHMu8TaCj695MOG6G9pJwNPE/Vmpu0bt0dfgtubLHK7ktwF6niXRz8fmv7ef6aJNvwx0YCJ+Szt8kek" noCertificado="00001000000202171318">
+  <cfdi:Emisor nombre="PAPEL S.A. de C.V." rfc="PAP830101CR3">
+    <cfdi:DomicilioFiscal calle="Biólogo Maximino Martínez" codigoPostal="02870" colonia="San Salvador Xochimanca" estado="Distrito Federal" municipio="DF" noExterior="3902" pais="MEXICO"/>
+    <cfdi:RegimenFiscal Regimen="Regimen General de Ley Personas Morales"/>
+  </cfdi:Emisor>
+  <cfdi:Receptor nombre="FAST DESING, S.A. DE C.V." rfc="FDE9310013X7">
+    <cfdi:Domicilio calle="CONVENTO DE STA. MONICA " codigoPostal="54050" colonia="JARDINES DE STA. MONICA" estado="México" municipio="TLALNEPANTLA" noExterior="112" noInterior="." pais="México"/>
+  </cfdi:Receptor>
+  <cfdi:Conceptos>
+    <cfdi:Concepto cantidad="1" unidad="No Aplica" descripcion="Suc:TACUBA Docto:18975 (19/09/13)" valorUnitario="8.59" importe="8.59"/>
+    <cfdi:Concepto cantidad="1" unidad="No Aplica" descripcion="Suc:TACUBA Docto:18936 (18/09/13)" valorUnitario="45.60" importe="45.60"/>
+    <cfdi:Concepto cantidad="1" unidad="No Aplica" descripcion="Suc:TACUBA Docto:18966 (19/09/13)" valorUnitario="17.58" importe="17.58"/>
+  </cfdi:Conceptos>
+  <cfdi:Impuestos totalImpuestosTrasladados="11.4832">
+    <cfdi:Traslados>
+      <cfdi:Traslado impuesto="IVA" importe="11.4832" tasa="16.00"/>
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+</cfdi:Comprobante>
