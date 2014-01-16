@@ -14,7 +14,7 @@
 </span>
 --%>
 <div class="fieldcontain">
-	<label for="${label}"><g:message code="empresa.certificadoDigital.label" default="Certificado"/></label>
+	
 	<span class="property-value">
 		${bean.certificado?.subjectX500Principal}
 	</span>

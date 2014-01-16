@@ -17,7 +17,7 @@
 			</ul>
 		</div>
 		<div id="show-empresa" class="content scaffold-show" role="main">
-			<h1><g:message code="default.show.label" args="[entityName]" /></h1>
+			<h1>Empresa (Id:${empresaInstance.id })</h1>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
@@ -71,20 +71,25 @@
 				<g:if test="${empresaInstance?.certificadoDigital}">
 				<li class="fieldcontain">
 					<span id="certificadoDigital-label" class="property-label"><g:message code="empresa.certificadoDigital.label" default="Certificado Digital" /></span>
-					
+					<f:display bean="${empresaInstance}" property="certificadoDigital"/>
 				</li>
 				</g:if>
 			
 				<g:if test="${empresaInstance?.certificadoDigitalPfx}">
 				<li class="fieldcontain">
 					<span id="certificadoDigitalPfx-label" class="property-label"><g:message code="empresa.certificadoDigitalPfx.label" default="Certificado Digital Pfx" /></span>
-					
+					<g:checkBox name="certificadoDigitalPfx" checked="${empresaInstance?.certificadoDigitalPfx}" readonly="true"/>
 				</li>
 				</g:if>
 			
 				<g:if test="${empresaInstance?.llavePrivada}">
 				<li class="fieldcontain">
-					<span id="llavePrivada-label" class="property-label"><g:message code="empresa.llavePrivada.label" default="Llave Privada" /></span>
+					<span id="llavePrivada-label" class="property-label">
+						<g:message code="empresa.llavePrivada.label" default="Llave Privada" />
+					</span>
+					<span class="property-value" aria-labelledby="llavelPrivada-label">
+						<g:fieldValue bean="${empresaInstance}" field="privateKey"/>
+					</span>
 					
 				</li>
 				</g:if>
@@ -98,47 +103,26 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${empresaInstance?.cfdiPath}">
+				<g:if test="${empresaInstance?.xmlDirectory}">
 				<li class="fieldcontain">
-					<span id="cfdiPath-label" class="property-label"><g:message code="empresa.cfdiPath.label" default="Cfdi Path" /></span>
-					
-						<span class="property-value" aria-labelledby="cfdiPath-label"><g:fieldValue bean="${empresaInstance}" field="cfdiPath"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${empresaInstance?.folioDeVentas}">
-				<li class="fieldcontain">
-					<span id="folioDeVentas-label" class="property-label"><g:message code="empresa.folioDeVentas.label" default="Folio De Ventas" /></span>
-					
-						<span class="property-value" aria-labelledby="folioDeVentas-label"><g:link controller="cfdiFolio" action="show" id="${empresaInstance?.folioDeVentas?.id}">${empresaInstance?.folioDeVentas?.encodeAsHTML()}</g:link></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${empresaInstance?.folioNotasDeCredito}">
-				<li class="fieldcontain">
-					<span id="folioNotasDeCredito-label" class="property-label"><g:message code="empresa.folioNotasDeCredito.label" default="Folio Notas De Credito" /></span>
-					
-						<span class="property-value" aria-labelledby="folioNotasDeCredito-label"><g:link controller="cfdiFolio" action="show" id="${empresaInstance?.folioNotasDeCredito?.id}">${empresaInstance?.folioNotasDeCredito?.encodeAsHTML()}</g:link></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${empresaInstance?.dateCreated}">
-				<li class="fieldcontain">
-					<span id="dateCreated-label" class="property-label"><g:message code="empresa.dateCreated.label" default="Date Created" /></span>
-					
-						<span class="property-value" aria-labelledby="dateCreated-label"><g:formatDate date="${empresaInstance?.dateCreated}" /></span>
+					<span id="lastUpdated-label" class="property-label">
+						<g:message code="empresa.xmlDirectory.label" default="XML (Directorio)" />
+					</span>
+					<span class="property-value" aria-labelledby="xmlDirectory-label">
+						<g:fieldValue bean="${empresaInstance}" field="xmlDirectory"/>
+					</span>
 					
 				</li>
 				</g:if>
 			
 				<g:if test="${empresaInstance?.lastUpdated}">
 				<li class="fieldcontain">
-					<span id="lastUpdated-label" class="property-label"><g:message code="empresa.lastUpdated.label" default="Last Updated" /></span>
-					
-						<span class="property-value" aria-labelledby="lastUpdated-label"><g:formatDate date="${empresaInstance?.lastUpdated}" /></span>
+					<span id="lastUpdated-label" class="property-label">
+						<g:message code="empresa.lastUpdated.label" default="Last Updated" />
+					</span>
+					<span class="property-value" aria-labelledby="lastUpdated-label">
+						<g:formatDate date="${empresaInstance?.lastUpdated}" format="dd/MM/yyy hh:MM:ss" />
+					</span>
 					
 				</li>
 				</g:if>

@@ -23,37 +23,22 @@
 			<table>
 			<thead>
 					<tr>
-					
+						<g:sortableColumn property="clave" title="${message(code: 'empresa.clave.label', default: 'Clave')}" />
 						<g:sortableColumn property="nombre" title="${message(code: 'empresa.nombre.label', default: 'Nombre')}" />
-					
 						<g:sortableColumn property="rfc" title="${message(code: 'empresa.rfc.label', default: 'Rfc')}" />
-					
-						<th><g:message code="empresa.direccion.label" default="Direccion" /></th>
-					
-						<g:sortableColumn property="regimen" title="${message(code: 'empresa.regimen.label', default: 'Regimen')}" />
-					
-						<g:sortableColumn property="numeroDeCertificado" title="${message(code: 'empresa.numeroDeCertificado.label', default: 'Numero De Certificado')}" />
-					
-						<g:sortableColumn property="certificadoDigital" title="${message(code: 'empresa.certificadoDigital.label', default: 'Certificado Digital')}" />
-					
+						<g:sortableColumn property="numeroDeCertificado" title="${message(code: 'empresa.numeroDeCertificado.label', default: 'No Certificado')}" />
+						
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${empresaInstanceList}" status="i" var="empresaInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
+						<td><g:link action="show" id="${empresaInstance.id}">${fieldValue(bean: empresaInstance, field: "clave")}</g:link></td>
 						<td><g:link action="show" id="${empresaInstance.id}">${fieldValue(bean: empresaInstance, field: "nombre")}</g:link></td>
-					
 						<td>${fieldValue(bean: empresaInstance, field: "rfc")}</td>
-					
-						<td>${fieldValue(bean: empresaInstance, field: "direccion")}</td>
-					
-						<td>${fieldValue(bean: empresaInstance, field: "regimen")}</td>
-					
 						<td>${fieldValue(bean: empresaInstance, field: "numeroDeCertificado")}</td>
-					
-						<td>${fieldValue(bean: empresaInstance, field: "certificadoDigital")}</td>
-					
+						
 					</tr>
 				</g:each>
 				</tbody>
