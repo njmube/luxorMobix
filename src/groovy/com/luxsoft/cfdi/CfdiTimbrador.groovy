@@ -36,13 +36,13 @@ class CfdiTimbrador {
 			Map<String, byte[]> map =zipUtils.descomprimeArchivo(res)
 			Map.Entry<String, byte[]> entry=map.entrySet().iterator().next()
 			
-			
 			cfdi.xmlName=entry.getKey()
 			cfdi.xml=entry.getValue()
 			cfdi.loadComprobante()
 			cfdi.timbreFiscal=new TimbreFiscal(cfdi.getComprobante())
 			cfdi.uuid=cfdi.timbreFiscal.UUID
 			cfdi.timbrado=df.parse(cfdi.timbreFiscal.FechaTimbrado)
+			cfdi.save(failOnError:true)
 			return cfdi
 		} catch (Exception e) {
 			e.printStackTrace()

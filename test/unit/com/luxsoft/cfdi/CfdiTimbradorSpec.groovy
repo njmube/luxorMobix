@@ -1,5 +1,6 @@
 package com.luxsoft.cfdi
 
+import grails.buildtestdata.mixin.Build
 import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
 import spock.lang.Specification
@@ -10,6 +11,7 @@ import spock.lang.Specification
  *
  */
 @TestMixin(GrailsUnitTestMixin)
+@Build([Cfdi])
 class CfdiTimbradorSpec extends Specification {
 
     def cfdiTimbrador
@@ -25,10 +27,9 @@ class CfdiTimbradorSpec extends Specification {
     void "timbrar un comprobante valido"() {
 		given:'Un comprobante nuevo'
 		
-		def cfdi=new Cfdi(id:555
-			,xmlName:'cfdiDePrueba.xml'
+		def cfdi=Cfdi.build(
+			xmlName:'cfdiDePrueba.xml'
 			,xml:new File('test/unit/cfdiDePrueba.xml').getBytes())
-		
 		
 		
 		when:'Mandamos timbrar'
@@ -39,7 +40,7 @@ class CfdiTimbradorSpec extends Specification {
 		cfdi.uuid
 		cfdi.timbreFiscal
 		cfdi.timbreFiscal.UUID
-		println cfdi.xmlName
+		println cfdi
 		println cfdi.timbreFiscal
 		
     }

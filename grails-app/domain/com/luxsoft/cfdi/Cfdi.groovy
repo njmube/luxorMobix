@@ -7,7 +7,7 @@ import java.io.ByteArrayInputStream
 import mx.gob.sat.cfd.x3.ComprobanteDocument
 import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante
 
-@ToString(includeNames=true,includes="id,serie,tipo,fecha,uuid")
+@ToString(includeNames=true,includes="id,serie,folio,tipo,fecha,uuid")
 class Cfdi {
 	
 	
@@ -60,7 +60,7 @@ class Cfdi {
 		cadenaOriginal maxSize:1024*64, nullable:true //@Column(name="CADENA_ORIGINAL",length=1048576,nullable=true)
 		origen blank:false,maxSize:255
 		tipoDeCfdi inList:['I','E']
-		comentario nullable:true,maxSize:255
+		comentario nullable:true,maxSize:355
 		url nullable:true,url:true
     }
 	
@@ -88,6 +88,8 @@ class Cfdi {
 		return new RuntimeException('Metodo por implementar');
 	}
 	
-	
+	String toString(){
+		return "($emisor) Id:$id  Tipo:$tipo Serie:$serie Folio:$folio  UUID:$uuid xmlName:$xmlName"
+	}
 	
 }

@@ -59,43 +59,41 @@ class CfdiService {
 		def ComprobanteDocument document=source as ComprobanteDocument
 		
 		
-		Comprobante comprobante=document.getComprobante();
-		XmlOptions options = new XmlOptions();
-		options.setCharacterEncoding("UTF-8");
-		options.put( XmlOptions.SAVE_INNER );
-		options.put( XmlOptions.SAVE_PRETTY_PRINT );
-		options.put( XmlOptions.SAVE_AGGRESSIVE_NAMESPACES );
-		options.put( XmlOptions.SAVE_USE_DEFAULT_NAMESPACE );
-		options.put(XmlOptions.SAVE_NAMESPACES_FIRST);
-		ByteArrayOutputStream os=new ByteArrayOutputStream();
-		document.save(os, options);
-		cfdi.setXml(os.toByteArray());
-		cfdi.setXmlName(cfdi.getSerie()+"-"+cfdi.getFolio()+".xml");
-		String sello=cfdiSellador.sellar(source.empresa.privateKey,document)
-		comprobante.setSello(sello)
-		comprobante.setCertificado(source.empresa.getCertificado())
+		Comprobante comprobante=document.getComprobante()
+		XmlOptions options = new XmlOptions()
+		options.setCharacterEncoding("UTF-8")
+		options.put( XmlOptions.SAVE_INNER )
+		options.put( XmlOptions.SAVE_PRETTY_PRINT )
+		options.put( XmlOptions.SAVE_AGGRESSIVE_NAMESPACES )
+		options.put( XmlOptions.SAVE_USE_DEFAULT_NAMESPACE )
+		options.put(XmlOptions.SAVE_NAMESPACES_FIRST)
+		ByteArrayOutputStream os=new ByteArrayOutputStream()
+		document.save(os, options)
+		cfdi.setXml(os.toByteArray())
+		cfdi.setXmlName("$cfdi.emisor.rfc-$cfdi.serie-$cfdi.folio"+".xml")
+		comprobante.sello=cfdiSellador.sellar(source.empresa.privateKey,document)
+		comprobante.certificado=source.empresa.certificado
 		validarDocumento(document)
 		cfdi.save(failOnError:true)
 		return cfdi
-		//File dir=source.empresa.xmlDirectory?:System.properties['user.home']+"/$cfdi.emisor/"
-		//assert dir.exists() && dir.isDirectory(),"Debe existir el directorio: $dir.absolutePath"
-		//File xmlFile=new File(dir,cfdi.xmlName)
-		//def url=salvarArchivo(document,xmlFile)
     }
 	
 	
 	
-	def salvarArchivo(ComprobanteDocument document,File xmlFile) {
+	def salvarEnArchivo(Cfdi cfdi,Empresa empresa) {
 		try {
-			//File dir=new File("$grailsApplication.config.cfdi.xmlPath/$cfdi.emisor/")
-			//assert dir.exists() && dir.isDirectory(),"Debe existir el directorio: $dir.absolutePath"
-			//File xmlFile=new File(dir,cfdi.xmlName);
+			ComprobanteDocument document=cfdi.getComprobanteDocument()
+			File dir=new File(empresa.xmlDirectory?:System.properties['user.home'])
+			assert dir.exists() && dir.isDirectory(),"Debe existir el directorio: $dir.absolutePath"
+			File xmlFile=new File(dir,cfdi.xmlName);
 			document.save(xmlFile);
-			return xmlFile.toURI().toURL()
-			//return cfdi;
+			cfdi.setUrl(xmlFile.toURI().toURL())
+			return cfdi
 		} catch (Exception e) {
 			e.printStackTrace()
 			log.error(e)
+			cfdi.comentario="No fue posible salvar el xml al sistema de archivos Error: "+ExceptionUtils.getRootCauseMessage(e)
+			//cfdi.comentario=cfdi.comentario.padLeft(355)
 		}
 	}
 	

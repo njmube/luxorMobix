@@ -20,6 +20,7 @@ import com.luxsoft.cfdi.CFDIUtils;
 
 class Empresa {
 	
+	String clave
 	String nombre
 	String rfc
 	Direccion direccion
@@ -41,38 +42,46 @@ class Empresa {
 	static embedded = ['direccion']
 
     static constraints = {
+		clave(blank:false,minSize:5,maxSize:15,unique:true)
 		nombre(blank:false,maxSize:255,unique:true)
 		rfc(blank:false,minSize:12,maxSize:13)
-		direccion()
-		regimen(maxSize:255)
-		numeroDeCertificado(minSize:1,maxSize:20)
-		certificadoDigital(nullable:true,maxSize:1024*1024*2) //2Mb para guardar el certificado digital
+		direccion(nullable:false)
+		regimen(blank:false,maxSize:255)
+		numeroDeCertificado(blank:false,minSize:1,maxSize:20)
+		certificadoDigital(nullable:false,maxSize:1024*1024*2) 
 		certificadoDigitalPfx(nullable:true,maxSize:1024*1024*2) 
-		llavePrivada(nullable:true,maxSize:1024*1024*2) 
+		llavePrivada(nullable:false,maxSize:1024*1024*2) 
 		passwordPfx(nullable:true)
-		xmlDirectory(nullable:true,maxSize:250)
-		
+		xmlDirectory(nullable:true,maxSize:250,validator:{dir->
+			
+			if(dir){
+				def file=new File(dir)
+				if( !file.exists())
+					return 'empresa.xmlDirectory.invalid'
+			}
+			
+		})
     }
 	
 	static mapping = {
 		
 	}
 	
-	static transients = ['certificado'
-		,'certificadoPfx'
-		,'privateKey'
-		]
+	static transients = ['certificado','certificadoPfx','privateKey']
 	
 	X509Certificate getCertificado(){
-		if(certificado && !certificadoDigital){
-				CertificateFactory fact= CertificateFactory.getInstance("X.509","BC")
-				InputStream is=new ByteArrayInputStream(certificadoDigital)
-				certificado = (X509Certificate)fact.generateCertificate(is)
-				certificado.checkValidity()
+		if(!certificado){
+			assert certificadoDigital,'Debe cargar el binario del certificado '
+			log.info('Cargando certificado digital en formato X509')
+			CertificateFactory fact= CertificateFactory.getInstance("X.509","BC")
+			InputStream is=new ByteArrayInputStream(certificadoDigital)
+			certificado = (X509Certificate)fact.generateCertificate(is)
+			certificado.checkValidity()
 				//is.closeQuietly();
-				is.close();
+			is.close();
 			this.certificado=certificado
 		}
+		
 		return certificado;
 	}
 	
@@ -91,7 +100,7 @@ class Empresa {
 	}
 	
 	String toString(){
-		return "$nombre"
+		return "$nombre ($rfc)"
 	}
 	
 	

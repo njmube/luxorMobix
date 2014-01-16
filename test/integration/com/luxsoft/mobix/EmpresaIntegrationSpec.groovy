@@ -57,8 +57,5 @@ class EmpresaIntegrationSpec extends Specification {
 		
 		then:' El certificado es persistido en la base de datos'
 		Empresa.get(empresa.id).certificadoDigital==data
-		
-		
-		
 	}
 }
