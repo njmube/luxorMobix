@@ -24,19 +24,19 @@ class Venta {
 	Cliente cliente
 	Currency moneda=Currency.getInstance('MXN');
 	BigDecimal tc
-	BigDecimal importe
-	BigDecimal descuentos
-	BigDecimal subtotal
-	BigDecimal impuestos
-	BigDecimal total
-	int plazo
+	BigDecimal importe=0
+	BigDecimal descuentos=0
+	BigDecimal subtotal=0
+	BigDecimal impuestos=0
+	BigDecimal total=0
+	int plazo=0
 	Date vencimiento
 	String formaDePago
 	String comentario
 	List partidas=[]
 	
-	BigDecimal saldo
-	BigDecimal pagosAplicados
+	BigDecimal saldo=0
+	BigDecimal pagosAplicados=0
 	
 	
 	
