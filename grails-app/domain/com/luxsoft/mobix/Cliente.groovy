@@ -3,11 +3,9 @@ package com.luxsoft.mobix
 import com.luxsoft.cfdi.CFDIUtils;
 
 
-import groovy.transform.ToString;
-
-@ToString(includeNames=true,includes=["nombre,rfc,direccion"])
 class Cliente {
 	
+	String clave
 	String nombre
 	String rfc
 	
@@ -19,10 +17,14 @@ class Cliente {
 	static embedded = ['direccion']
 
     static constraints = {
+		clave(blank:false,maxSize:20,unique:true)
 		nombre(blank:false,maxSize:255,unique:true)
 		rfc(blank:false,minSize:12,maxSize:13)
 		direccion(nullable:false)
     }
 	
+	String toString(){
+		return "$nombre ($clave)"
+	}
 	
 }

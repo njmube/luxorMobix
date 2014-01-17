@@ -6,6 +6,8 @@ import static org.springframework.http.HttpStatus.*
 
 import org.springframework.security.access.annotation.Secured;
 
+import com.luxsoft.utils.MonedaUtils;
+
 import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
@@ -30,15 +32,22 @@ class VentaController {
     }
 
     @Transactional
-    def save(Venta ventaInstance) {
+    def save() {
+		/*
         if (ventaInstance == null) {
             notFound()
             return
-        }
+        }*/
+		println 'Salvando ventas con parametros: '+params
+		//println 'Salvando venta: '+ventaInstance.properties
+		def ventaInstance=new Venta()
+		bindData(ventaInstance,params,[exclude:['moneda']])
+		ventaInstance.importe=0.0
+		ventaInstance.descuentos=0.0
+		ventaInstance.vencimiento=new Date()
+		ventaInstance.moneda=MonedaUtils.PESOS
+		ventaInstance.validate()
 		println 'Salvando venta: '+ventaInstance.properties
-		ventaIstance.importe=0.0
-		ventaIstance.descuentos=0.0
-		
         if (ventaInstance.hasErrors()) {
             respond ventaInstance.errors, view:'create'
             return
@@ -110,4 +119,19 @@ class VentaController {
             '*'{ render status: NOT_FOUND }
         }
     }
+	
+	
+	def agregarPartida(VentaDet ventaDetInstance){
+		println 'Agregando partida a : '+ventaDetInstance.venta +'Propiedades: '+ventaDetInstance.properties
+		//def venta=ventaDet.venta
+		//venta.addToPartidas(ventaDet)
+		/*
+		if (ventaDetInstance.hasErrors()) {
+			//respond ventaDetInstance.errors, view:'create'
+			//return
+			flash.message = message(code: 'default.created.message', args: [message(code: 'ventaDetInstance.label', default: 'VentaDet'), ventaDetInstance.id])
+			redirect action:'create' ,controller:'ventaDet',params:['venta.id':ventaDetInstance.venta.id]
+		}*/
+		
+	}
 }

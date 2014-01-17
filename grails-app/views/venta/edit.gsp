@@ -31,9 +31,23 @@
 				<g:hiddenField name="id" value="${ventaInstance?.id}" />
 				<g:hiddenField name="version" value="${ventaInstance?.version}" />
 				<fieldset class="form">
-					<f:all bean="ventaInstance"/>
+					<f:with bean="${ ventaInstance}">
+						<f:field property="empresa" input-disabled="true"/>
+						<f:field property="cliente" />
+						<f:field property="fecha"/>
+						<f:field property="moneda" >
+							<g:currencySelect name="moneda"  from="['USD','EUR','MXN']" value="${ventaInstance?.moneda}"/>
+						</f:field>
+						<f:field property="tc"/>
+						<f:field property="tipo" input-disabled="true"/>
+						<f:field property="formaDePago"/>
+						<f:field property="comentario"/>
+						<f:field property="partidas" label="Partidas"/>
+						
+					</f:with>
 				</fieldset>
 				<fieldset class="buttons">
+					
 					<g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" />
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>

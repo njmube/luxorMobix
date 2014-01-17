@@ -6,6 +6,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder
 class Producto {
 	
 	Empresa empresa
+	String clave
 	String descripcion
 	String unidad
 	String cuentaPredial
@@ -15,6 +16,7 @@ class Producto {
 
     static constraints = {
 		empresa nullable:false
+		clave blank:false, maxSize:20
 		descripcion blank:false,maxSize:300
 		unidad blank:false,maxSize:30
 		cuentaPredial nullable:true,maxSize:200
