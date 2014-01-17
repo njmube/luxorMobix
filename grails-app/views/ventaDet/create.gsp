@@ -15,7 +15,7 @@
 			</ul>
 		</div>
 		<div id="create-ventaDet" class="content scaffold-create" role="main">
-			<h1>Agregar partida venta: ${ventaDetInstance.venta.id }</h1>
+			<h1>Agregar partida venta: ${ventaDetInstance?.venta?.id }</h1>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
@@ -26,10 +26,10 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form action="agregarPartida" controller="venta">
-				<fieldset class="form">
+			<g:form action="agregarPartida" >
+				<fieldset class="form" >
 					<f:with bean="${ventaDetInstance}">
-						<g:hiddenField name="venta" value="${ventaDetInstance.venta}"/>
+						<g:hiddenField name="venta.id" value="${ventaDetInstance?.venta?.id}"/>
 						<f:field property="producto"/>
 						<f:field property="cantidad"/>
 						<f:field property="precio"/>

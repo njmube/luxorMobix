@@ -35,8 +35,10 @@
 						<f:field property="empresa" input-disabled="true"/>
 						<f:field property="cliente" />
 						<f:field property="fecha"/>
-						<f:field property="moneda" >
-							<g:currencySelect name="moneda"  from="['USD','EUR','MXN']" value="${ventaInstance?.moneda}"/>
+						<f:field property="moneda" value="${ventaInstance.moneda }">
+							<g:currencySelect name="moneda"  
+								
+								value="${ventaInstance?.moneda}"/>
 						</f:field>
 						<f:field property="tc"/>
 						<f:field property="tipo" input-disabled="true"/>
@@ -50,6 +52,10 @@
 					
 					<g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" />
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+					<g:if test="${Cfdi.findByOrigen(ventaInstance?.id) }">
+						<g:actionSubmit class="message" action="facturar" value="Facturar" />
+					</g:if>
+					
 				</fieldset>
 			</g:form>
 		</div>

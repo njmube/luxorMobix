@@ -23,18 +23,16 @@
 			<table>
 			<thead>
 					<tr>
-					
+						<th>Folio</th>
 						<th><g:message code="venta.empresa.label" default="Empresa" /></th>
 					
 						<th><g:message code="venta.cliente.label" default="Cliente" /></th>
 					
 						<g:sortableColumn property="fecha" title="${message(code: 'venta.fecha.label', default: 'Fecha')}" />
 					
-						<g:sortableColumn property="importe" title="${message(code: 'venta.importe.label', default: 'Importe')}" />
+						<g:sortableColumn property="total" title="Total" />
 					
-						<g:sortableColumn property="descuentos" title="${message(code: 'venta.descuentos.label', default: 'Descuentos')}" />
-					
-						<g:sortableColumn property="subtotal" title="${message(code: 'venta.subtotal.label', default: 'Subtotal')}" />
+						
 					
 					</tr>
 				</thead>
@@ -42,17 +40,15 @@
 				<g:each in="${ventaInstanceList}" status="i" var="ventaInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${ventaInstance.id}">${fieldValue(bean: ventaInstance, field: "empresa")}</g:link></td>
-					
+						<td><g:link action="show" id="${ventaInstance.id}">${fieldValue(bean: ventaInstance, field: "id")}</g:link></td>
+						<td>${fieldValue(bean: ventaInstance.empresa, field: "clave")}</td>
 						<td>${fieldValue(bean: ventaInstance, field: "cliente")}</td>
 					
 						<td><g:formatDate date="${ventaInstance.fecha}" /></td>
 					
-						<td>${fieldValue(bean: ventaInstance, field: "importe")}</td>
+						<td><g:formatNumber number="${ventaInstance.total }" currencyCode="USD"/></td>
 					
-						<td>${fieldValue(bean: ventaInstance, field: "descuentos")}</td>
-					
-						<td>${fieldValue(bean: ventaInstance, field: "subtotal")}</td>
+						
 					
 					</tr>
 				</g:each>

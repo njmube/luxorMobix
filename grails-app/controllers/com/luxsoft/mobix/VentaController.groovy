@@ -4,6 +4,8 @@ package com.luxsoft.mobix
 
 import static org.springframework.http.HttpStatus.*
 
+import java.util.regex.Pattern.Curly;
+
 import org.springframework.security.access.annotation.Secured;
 
 import com.luxsoft.utils.MonedaUtils;
@@ -14,7 +16,11 @@ import grails.transaction.Transactional
 @Secured(['ROLE_ADMIN'])
 class VentaController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: "POST", update: "POST", delete: "DELETE"]
+	
+	def list(){
+		redirect action:'index'
+	}
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -33,21 +39,16 @@ class VentaController {
 
     @Transactional
     def save() {
-		/*
-        if (ventaInstance == null) {
-            notFound()
-            return
-        }*/
-		println 'Salvando ventas con parametros: '+params
-		//println 'Salvando venta: '+ventaInstance.properties
+		println 'Salvando ventas Parametros: '+params.moneda
 		def ventaInstance=new Venta()
-		bindData(ventaInstance,params,[exclude:['moneda']])
+		bindData(ventaInstance,params,[exclude: 'moneda'])
 		ventaInstance.importe=0.0
 		ventaInstance.descuentos=0.0
 		ventaInstance.vencimiento=new Date()
-		ventaInstance.moneda=MonedaUtils.PESOS
+		ventaInstance.moneda=Currency.getInstance(params.moneda)
+		//ventaInstance.moneda=MonedaUtils.PESOS
 		ventaInstance.validate()
-		println 'Salvando venta: '+ventaInstance.properties
+		println 'Venta por salvar: '+ventaInstance.properties
         if (ventaInstance.hasErrors()) {
             respond ventaInstance.errors, view:'create'
             return
@@ -64,8 +65,14 @@ class VentaController {
         }
     }
 
-    def edit(Venta ventaInstance) {
-        respond ventaInstance
+    def edit(long id) {
+		def ventaInstance=Venta.findById(id)
+		if(ventaInstance==null){
+			notFound()
+			return
+		}
+		[ventaInstance:ventaInstance]
+        //respond ventaInstance
     }
 
     @Transactional
@@ -122,7 +129,8 @@ class VentaController {
 	
 	
 	def agregarPartida(VentaDet ventaDetInstance){
-		println 'Agregando partida a : '+ventaDetInstance.venta +'Propiedades: '+ventaDetInstance.properties
+		//println 'Agregando partida a : '+ventaDetInstance.venta +'Propiedades: '+ventaDetInstance.properties
+		def venta=Venta.get(params['venta.id'])
 		//def venta=ventaDet.venta
 		//venta.addToPartidas(ventaDet)
 		/*

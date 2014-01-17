@@ -34,7 +34,9 @@
 						<f:field property="cliente"/>
 						<f:field property="fecha"/>
 						<f:field property="moneda">
-							<g:currencySelect name="moneda"  from="['USD','EUR','MXN']" value="${ventaInstance?.moneda}"/>
+							<g:currencySelect name="moneda"  
+								from="['USD','EUR','MXN']" 
+								value="${ventaInstance?.moneda}"/>
 						</f:field>
 						<f:field property="tc"/>
 						<f:field property="tipo" input-disabled="true"/>
