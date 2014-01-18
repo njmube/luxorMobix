@@ -4,6 +4,8 @@ package com.luxsoft.cfdi
 
 import static org.springframework.http.HttpStatus.*
 
+import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante;
+
 import org.springframework.security.access.annotation.Secured;
 
 import com.luxsoft.mobix.Empresa;
@@ -81,5 +83,40 @@ class CfdiController {
 			}
 			'*'{ render status: NO_CONTENT }
 		}
+	}
+	
+	def imprimirCfdi(long id){
+		println 'Generando reporte: '+params
+		def cfdi=Cfdi.findById(id)
+		if(cfdi==null){
+			notFound()
+			return
+		}
+		Comprobante cfd=cfdi.getComprobante()
+		def conceptos=cfd.getConceptos().getConceptoArray()
+		
+		def modelData=conceptos.collect { cc ->
+			
+			def res=[
+			'cantidad':cc.getCantidad()
+			 ,'NoIdentificacion':cc.getNoIdentificacion()
+			 ,'descripcion':cc.getDescripcion()
+			 ,'unidad':cc.getUnidad()
+			 ,'ValorUnitario':cc.getValorUnitario()
+			 ,'Importe':cc.getImporte()
+			 ]
+			if(cc.informacionAduaneraArray){
+				res.PEDIMENTO_FECHA=cc.informacionAduaneraArray[0]?.fecha.getTime()
+				res.PEDIMENTO=cc.informacionAduaneraArray[0]?.numero
+				res.ADUANA=cc.informacionAduaneraArray[0]?.aduana
+			}
+			return res
+		}
+		def repParams=CfdiPrintUtils.resolverParametros(cfdi)
+		params<<repParams
+		params.FECHA=cfd.fecha.getTime().format("yyyy-MM-dd'T'HH:mm:ss")
+		chain(controller:'jasper',action:'index',model:[data:modelData],params:params)
+
+		
 	}
 }

@@ -229,6 +229,16 @@
 				</g:if>
 			
 			</ol>
+			<fieldset class="buttons">
+				<g:jasperReport
+					controller="cfdi"
+					action="imprimirCfdi"
+					jasper="CFDI" 
+					format="PDF,HTML" 
+					name="Imprimir CFDI">
+							<g:hiddenField name="id" value="${cfdiInstance.id}"/>
+				</g:jasperReport>
+			</fieldset>
 			<g:form url="[resource:cfdiInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">
 					<g:link class="edit" action="timbrar" resource="${cfdiInstance}">Timbrar</g:link>

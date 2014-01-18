@@ -12,6 +12,6 @@ beans = {
 		cadenaBuilder=ref("cfdiCadenaBuilder")
 	}
 	cfdiTimbrador(CfdiTimbrador){
-		
+		timbradoDePrueba=false
 	}
 }

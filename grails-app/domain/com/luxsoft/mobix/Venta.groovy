@@ -4,6 +4,7 @@ import mx.gob.sat.cfd.x3.ComprobanteDocument;
 import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante;
 import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante.Conceptos;
 import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante.Conceptos.Concepto;
+import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante.Conceptos.Concepto.CuentaPredial;
 import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante.Emisor;
 import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante.Impuestos;
 import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante.Impuestos.Traslados;
@@ -167,6 +168,8 @@ class Venta {
 					c.setValorUnitario(det.calcularPercioConImpuesto())
 					c.setImporte(det.calcularImporteConImpuesto())
 				}
+				CuentaPredial cp=c.addNewCuentaPredial()
+				cp.setNumero(det.producto.cuentaPredial)
 			}
 			return document
 		}else

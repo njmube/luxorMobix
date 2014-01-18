@@ -36,11 +36,7 @@
 						<f:field property="empresa" input-disabled="true"/>
 						<f:field property="cliente" />
 						<f:field property="fecha"/>
-						<f:field property="moneda" value="${ventaInstance.moneda }">
-							<g:currencySelect name="moneda"  
-								
-								value="${ventaInstance?.moneda}"/>
-						</f:field>
+						<f:field property="moneda" value="${ventaInstance.moneda }"/>
 						<f:field property="tc"/>
 						<f:field property="tipo" input-disabled="true"/>
 						<f:field property="formaDePago"/>
