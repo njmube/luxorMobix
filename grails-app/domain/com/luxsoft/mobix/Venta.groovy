@@ -108,7 +108,7 @@ class Venta {
 				,serie:'VENTA'
 				,folio:id.toString()
 				,origen:id.toString()
-				,emisor:cliente.nombre
+				,emisor:empresa.clave
 				,receptor:cliente.nombre
 				,rfc:cliente.rfc
 				,importe:importe
@@ -119,15 +119,15 @@ class Venta {
 				)
 			return cfdi
 		}else if(type==ComprobanteDocument){
-			def document=ComprobanteDocument.Factory.newInstance()
-			//CFDIUtils.depurar(document)
-			Comprobante comprobante=document.addNewComprobante()
+			final ComprobanteDocument document=ComprobanteDocument.Factory.newInstance()
+			final Comprobante comprobante=document.addNewComprobante()
+			CFDIUtils.depurar(document)
 			comprobante.setVersion("3.2")
 			comprobante.setFecha(CFDIUtils.toXmlDate(new Date()).getCalendarValue())
 			comprobante.setFormaDePago("PAGO EN UNA SOLA EXHIBICION")
-			comprobante.setMetodoDePago("NO IDENTIFICADO")
-			comprobante.setTipoCambio(this.tc.toString())
+			comprobante.setMetodoDePago(this.formaDePago)
 			comprobante.setMoneda(this.moneda.getCurrencyCode())
+			comprobante.setTipoCambio(this.tc.toString())
 			comprobante.setDescuento(this.descuentos)
 			comprobante.setTipoDeComprobante(TipoDeComprobante.INGRESO)
 			comprobante.setLugarExpedicion(this.empresa.direccion.pais)

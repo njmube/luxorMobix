@@ -52,14 +52,18 @@ class CfdiService {
 	
 	def cfdiSellador
 
+	@Transactional
     def Cfdi generarCfdi(def source) {
 		
 		def cfdi=source as Cfdi
 		
 		def ComprobanteDocument document=source as ComprobanteDocument
 		
-		
 		Comprobante comprobante=document.getComprobante()
+		comprobante.setSello(cfdiSellador.sellar(source.empresa.privateKey,document))
+		byte[] encodedCert=Base64.encode(source.empresa.certificado.getEncoded())
+		comprobante.setCertificado(new String(encodedCert))
+		
 		XmlOptions options = new XmlOptions()
 		options.setCharacterEncoding("UTF-8")
 		options.put( XmlOptions.SAVE_INNER )
@@ -69,12 +73,12 @@ class CfdiService {
 		options.put(XmlOptions.SAVE_NAMESPACES_FIRST)
 		ByteArrayOutputStream os=new ByteArrayOutputStream()
 		document.save(os, options)
+		
 		cfdi.setXml(os.toByteArray())
-		cfdi.setXmlName("$cfdi.emisor.rfc-$cfdi.serie-$cfdi.folio"+".xml")
-		comprobante.sello=cfdiSellador.sellar(source.empresa.privateKey,document)
-		comprobante.certificado=source.empresa.certificado
+		cfdi.setXmlName("$cfdi.rfc-$cfdi.serie-$cfdi.folio"+".xml")
+		
 		validarDocumento(document)
-		cfdi.save(failOnError:true)
+		cfdi.save()
 		return cfdi
     }
 	

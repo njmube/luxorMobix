@@ -58,7 +58,7 @@ class CFDIUtils {
 		return ubicacion
 	}
 	
-	void depurar(ComprobanteDocument document){
+	static  depurar(ComprobanteDocument document){
 		XmlCursor cursor=document.newCursor()
 		if(cursor.toFirstChild()){
 			QName qname=new QName("http://www.w3.org/2001/XMLSchema-instance","schemaLocation","xsi")

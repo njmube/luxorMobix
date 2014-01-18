@@ -15,6 +15,8 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 @Secured(['ROLE_ADMIN'])
 class VentaController {
+	
+	def cfdiService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "DELETE"]
 	
@@ -128,18 +130,17 @@ class VentaController {
     }
 	
 	
-	def agregarPartida(VentaDet ventaDetInstance){
-		//println 'Agregando partida a : '+ventaDetInstance.venta +'Propiedades: '+ventaDetInstance.properties
-		def venta=Venta.get(params['venta.id'])
-		//def venta=ventaDet.venta
-		//venta.addToPartidas(ventaDet)
-		/*
-		if (ventaDetInstance.hasErrors()) {
-			//respond ventaDetInstance.errors, view:'create'
-			//return
-			flash.message = message(code: 'default.created.message', args: [message(code: 'ventaDetInstance.label', default: 'VentaDet'), ventaDetInstance.id])
-			redirect action:'create' ,controller:'ventaDet',params:['venta.id':ventaDetInstance.venta.id]
-		}*/
+	@Transactional
+	def facturar(long id){
+		def venta=Venta.findById(id)
+		if(venta==null){
+			notFound()
+			return
+		}
+		println 'Mandando facturar venta: '+venta.id
+		println 'CfdiService: '+cfdiService.class
+		def cfdi=cfdiService.generarCfdi(venta)
 		
+		render view:'/cfdi/show',model:[cfdi:cfdi]
 	}
 }

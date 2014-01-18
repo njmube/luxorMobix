@@ -51,6 +51,7 @@ class VentaDetController {
 		}
 		
 	}
+	
 	/*
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)

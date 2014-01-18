@@ -12,7 +12,7 @@ import grails.transaction.Transactional
 @Secured(['ROLE_ADMIN'])
 class EmpresaController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: "POST", update: "POST", delete: "DELETE"]
 
 	
 	
@@ -40,16 +40,12 @@ class EmpresaController {
             respond empresaInstance.errors, view:'create'
             return
         }
+        
+		empresaInstance.save flush:true
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'Empresa.label', default: 'Empresa'), empresaInstance.id])
+		redirect view:'show',model:[empresaInstance:empresaInstance]
 
-        empresaInstance.save flush:true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'empresaInstance.label', default: 'Empresa'), empresaInstance.id])
-                redirect empresaInstance
-            }
-            '*' { respond empresaInstance, [status: CREATED] }
-        }
+        
     }
 
     def edit(Empresa empresaInstance) {
@@ -69,14 +65,16 @@ class EmpresaController {
         }
 
         empresaInstance.save flush:true
-
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'Empresa.label', default: 'Empresa'), empresaInstance.id])
+		redirect view:'show',model:[empresaInstance:empresaInstance]
+		/*
         request.withFormat {
             form {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'Empresa.label', default: 'Empresa'), empresaInstance.id])
-                redirect empresaInstance
+                redirect view:'show',model:[empresaInstance:empresaInstance]
             }
             '*'{ respond empresaInstance, [status: OK] }
-        }
+        }*/
     }
 
     @Transactional
