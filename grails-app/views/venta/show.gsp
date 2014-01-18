@@ -1,5 +1,6 @@
 
 <%@ page import="com.luxsoft.mobix.Venta" %>
+<%@ page import="com.luxsoft.cfdi.Cfdi" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -210,7 +211,7 @@
 				<fieldset class="buttons">
 					<g:link class="edit" action="edit" resource="${ventaInstance}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-					<g:if test="${Cfdi.findByOrigen(ventaInstance?.id) }">
+					<g:if test="${!Cfdi.findByOrigen(ventaInstance?.id) }">
 						<g:actionSubmit class="message" action="facturar" value="Facturar" />
 					</g:if>
 				</fieldset>
