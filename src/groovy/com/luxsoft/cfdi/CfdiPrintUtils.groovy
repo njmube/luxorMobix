@@ -32,7 +32,7 @@ class CfdiPrintUtils {
 		parametros.put("FECHA", 			comprobante.getFecha().getTime());
 		parametros.put("NFISCAL", 			comprobante.getSerie()+" - "+comprobante.getFolio());
 		parametros.put("IMPORTE", 			comprobante.getSubTotal());
-		parametros.put("IMPUESTO", 			comprobante.getImpuestos().getTotalImpuestosTrasladados());
+		parametros.put("IVA", 			comprobante.getImpuestos().getTotalImpuestosTrasladados());
 		parametros.put("TOTAL", 			comprobante.getTotal());
 		parametros.put("RECEPTOR_DIRECCION", 		getDireccionEnFormatoEstandar(comprobante.getReceptor().getDomicilio()) );
 		parametros.put("NUM_CTA_PAGO", 		comprobante.getNumCtaPago());
@@ -40,7 +40,7 @@ class CfdiPrintUtils {
 		//Datos tomado de la aplicacion
 		parametros.put("IMP_CON_LETRA", 	ImporteALetra.aLetra(comprobante.getTotal()));
 		parametros['FORMA_DE_PAGO']=comprobante.formaDePago
-		
+		parametros['PINT_IVA']='16 '
 		
 		parametros.put("DESCUENTOS", 	comprobante.getDescuento());
 		
