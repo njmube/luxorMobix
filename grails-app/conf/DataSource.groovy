@@ -15,7 +15,7 @@ hibernate {
 environments {
     development {
         dataSource {
-            dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
+            dbCreate = '' // one of 'create', 'create-drop', 'update', 'validate', ''
 			url = 'jdbc:mysql://localhost/mobix?autoReconnect=true'
 			dialect = org.hibernate.dialect.MySQL5InnoDBDialect
 			driverClassName = 'com.mysql.jdbc.Driver'

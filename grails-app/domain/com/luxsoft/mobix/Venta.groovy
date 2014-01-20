@@ -170,6 +170,7 @@ class Venta {
 				}
 				CuentaPredial cp=c.addNewCuentaPredial()
 				cp.setNumero(det.producto.cuentaPredial)
+				
 			}
 			return document
 		}else

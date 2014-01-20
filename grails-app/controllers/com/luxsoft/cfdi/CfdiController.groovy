@@ -86,7 +86,7 @@ class CfdiController {
 	}
 	
 	def imprimirCfdi(long id){
-		println 'Generando reporte: '+params
+		
 		def cfdi=Cfdi.findById(id)
 		if(cfdi==null){
 			notFound()
@@ -110,6 +110,9 @@ class CfdiController {
 				res.PEDIMENTO=cc.informacionAduaneraArray[0]?.numero
 				res.ADUANA=cc.informacionAduaneraArray[0]?.aduana
 			}
+			if(cc.cuentaPredial){
+				res.CUENTA_PREDIAL=cc.cuentaPredial.numero
+			}
 			return res
 		}
 		def repParams=CfdiPrintUtils.resolverParametros(cfdi)
@@ -117,6 +120,18 @@ class CfdiController {
 		params.FECHA=cfd.fecha.getTime().format("yyyy-MM-dd'T'HH:mm:ss")
 		chain(controller:'jasper',action:'index',model:[data:modelData],params:params)
 
+		
+	}
+	
+	def descargarXml(long id){
+		Cfdi cfdi=Cfdi.findById(id)
+		if(cfdi==null){
+			notFound()
+			return
+		}
+		response.setContentType("application/octet-stream")
+		response.setHeader("Content-disposition", "attachment; filename=\"$cfdi.xmlName\"")
+		response.outputStream << cfdi.getComprobanteDocument().newInputStream()
 		
 	}
 }

@@ -234,7 +234,7 @@
 					controller="cfdi"
 					action="imprimirCfdi"
 					jasper="CFDI" 
-					format="PDF,HTML" 
+					format="PDF" 
 					name="Imprimir CFDI">
 							<g:hiddenField name="id" value="${cfdiInstance.id}"/>
 				</g:jasperReport>

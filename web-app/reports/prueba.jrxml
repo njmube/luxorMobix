@@ -1,102 +1,67 @@
-<?xml version="1.0" encoding="UTF-8"  ?>
-<!-- Created with iReport - A designer for JasperReports -->
-<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
-<jasperReport
-		 name="Prueba_1"
-		 columnCount="1"
-		 printOrder="Vertical"
-		 orientation="Portrait"
-		 pageWidth="612"
-		 pageHeight="792"
-		 columnWidth="552"
-		 columnSpacing="0"
-		 leftMargin="30"
-		 rightMargin="30"
-		 topMargin="20"
-		 bottomMargin="20"
-		 whenNoDataType="NoPages"
-		 isTitleNewPage="false"
-		 isSummaryNewPage="false">
-	<property name="ireport.scriptlethandling" value="2" />
-	<property name="ireport.encoding" value="UTF-8" />
-	<import value="java.util.*" />
-	<import value="net.sf.jasperreports.engine.*" />
-	<import value="net.sf.jasperreports.engine.data.*" />
-
-
-		<background>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-		</background>
-		<title>
-			<band height="50"  isSplitAllowed="true" >
-			</band>
-		</title>
-		<pageHeader>
-			<band height="50"  isSplitAllowed="true" >
-			</band>
-		</pageHeader>
-		<columnHeader>
-			<band height="30"  isSplitAllowed="true" >
-				<staticText>
-					<reportElement
-						x="8"
-						y="9"
-						width="94"
-						height="18"
-						key="staticText-1"/>
-					<box></box>
-					<textElement textAlignment="Center">
-						<font pdfFontName="Helvetica" isBold="false"/>
-					</textElement>
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Prueba_1" pageWidth="612" pageHeight="792" columnWidth="552" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="26e0654f-2552-4ca8-a645-e31ba14aa832">
+	<property name="ireport.scriptlethandling" value="2"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="QR_CODE" class="java.lang.Object" isForPrompting="false"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="78" splitType="Stretch">
+			<image>
+				<reportElement x="16" y="18" width="50" height="50" uuid="07d35696-ccc0-4a70-b008-e7db102dfff2"/>
+				<imageExpression><![CDATA[$P{QR_CODE}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement key="staticText-1" x="186" y="15" width="94" height="18" uuid="47a6cf57-8b4a-4a89-b577-64912bfef8dc"/>
+				<textElement textAlignment="Center">
+					<font isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
 				<text><![CDATA[CAMPO 1 - A]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="139"
-						y="9"
-						width="94"
-						height="18"
-						key="staticText-2"/>
-					<box></box>
-					<textElement textAlignment="Center">
-						<font pdfFontName="Helvetica" isBold="false"/>
-					</textElement>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement key="staticText-2" x="16" y="6" width="94" height="18" uuid="924ff62a-18ae-48b4-89a4-61db19217712"/>
+				<textElement textAlignment="Center">
+					<font isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
 				<text><![CDATA[CAMPO 1 - B]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="270"
-						y="9"
-						width="94"
-						height="18"
-						key="staticText-3"/>
-					<box></box>
-					<textElement textAlignment="Center">
-						<font pdfFontName="Helvetica" isBold="false"/>
-					</textElement>
-				<text><![CDATA[CAMPO 1 - C]]></text>
-				</staticText>
-			</band>
-		</columnHeader>
-		<detail>
-			<band height="100"  isSplitAllowed="true" >
-			</band>
-		</detail>
-		<columnFooter>
-			<band height="30"  isSplitAllowed="true" >
-			</band>
-		</columnFooter>
-		<pageFooter>
-			<band height="50"  isSplitAllowed="true" >
-			</band>
-		</pageFooter>
-		<lastPageFooter>
-			<band height="50"  isSplitAllowed="true" >
-			</band>
-		</lastPageFooter>
-		<summary>
-			<band height="50"  isSplitAllowed="true" >
-			</band>
-		</summary>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-3" x="150" y="6" width="310" height="18" uuid="2c262a89-7d72-484e-b46e-e034887eca3e"/>
+				<textElement textAlignment="Center">
+					<font isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[CAMPO CCC]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="100" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="30" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="50" splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="50" splitType="Stretch"/>
+	</lastPageFooter>
+	<summary>
+		<band height="50" splitType="Stretch"/>
+	</summary>
 </jasperReport>

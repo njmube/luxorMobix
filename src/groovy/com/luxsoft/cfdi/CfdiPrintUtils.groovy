@@ -1,13 +1,12 @@
 package com.luxsoft.cfdi
 
-import java.awt.Image;
-import java.text.MessageFormat;
 
+import java.security.Policy.Parameters;
+import java.text.MessageFormat;
 
 import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante;
 import mx.gob.sat.cfd.x3.ComprobanteDocument.Comprobante.Emisor;
 import mx.gob.sat.cfd.x3.TUbicacion;
-
 
 import org.apache.commons.lang.StringUtils;
 
@@ -23,22 +22,24 @@ class CfdiPrintUtils {
 		def parametros=[:]
 		// Datos tomados del Comprobante fiscal digital XML
 		
-		parametros.put("FOLIO", 			comprobante.getSerie()+"-"+comprobante.getFolio());
+		parametros.put("SERIE", 			comprobante.getSerie());
+		parametros.put("FOLIO", 			comprobante.getFolio());
 		parametros.put("NUM_CERTIFICADO", 	comprobante.getNoCertificado());
 		parametros.put("SELLO_DIGITAL", 	comprobante.getSello());
 		parametros.put("CADENA_ORIGINAL", 	cfdi.getCadenaOriginal());
-		parametros.put("NOMBRE", 			comprobante.getReceptor().getNombre()); //Recibir como Parametro
-		parametros.put("RFC", 				comprobante.getReceptor().getRfc());
+		parametros.put("RECEPTOR_NOMBRE", 			comprobante.getReceptor().getNombre()); //Recibir como Parametro
+		parametros.put("RECEPTOR_RFC", 				comprobante.getReceptor().getRfc());
 		parametros.put("FECHA", 			comprobante.getFecha().getTime());
 		parametros.put("NFISCAL", 			comprobante.getSerie()+" - "+comprobante.getFolio());
 		parametros.put("IMPORTE", 			comprobante.getSubTotal());
 		parametros.put("IMPUESTO", 			comprobante.getImpuestos().getTotalImpuestosTrasladados());
 		parametros.put("TOTAL", 			comprobante.getTotal());
-		parametros.put("DIRECCION", 		getDireccionEnFormatoEstandar(comprobante.getReceptor().getDomicilio()) );
-		parametros.put("CUENTA", 		comprobante.getNumCtaPago());
+		parametros.put("RECEPTOR_DIRECCION", 		getDireccionEnFormatoEstandar(comprobante.getReceptor().getDomicilio()) );
+		parametros.put("NUM_CTA_PAGO", 		comprobante.getNumCtaPago());
 		parametros.put("METODO_PAGO", 		comprobante.getMetodoDePago());
 		//Datos tomado de la aplicacion
 		parametros.put("IMP_CON_LETRA", 	ImporteALetra.aLetra(comprobante.getTotal()));
+		parametros['FORMA_DE_PAGO']=comprobante.formaDePago
 		
 		
 		parametros.put("DESCUENTOS", 	comprobante.getDescuento());
@@ -68,6 +69,7 @@ class CfdiPrintUtils {
 				,emisor.getDomicilioFiscal().getEstado()
 				);
 		parametros.put("EMISOR_DIRECCION", direccionEmisor);
+		parametros.put("EXPEDIDO_DIRECCION", direccionEmisor);
 		
 		if (emisor.getExpedidoEn() != null){
 			TUbicacion expedido=emisor.getExpedidoEn();
@@ -92,9 +94,12 @@ class CfdiPrintUtils {
 		//Especiales para CFDI
 			
 		if(cfdi.uuid!=null){
-			Image img=QRCodeUtils.generarQR(cfdi.getComprobante())
+			
+			//println 'Imagen generada: '+img
+			def img=QRCodeUtils.generarQR(cfdi.getComprobante())
 			println 'Imagen generada: '+img
 			parametros.put("QR_CODE",img);
+			//parametros.put("QR_CODE",QRCodeUtils.getQCode(cfdi.getComprobante()))
 			TimbreFiscal timbre=new TimbreFiscal(cfdi.getComprobante())
 			parametros.put("FECHA_TIMBRADO", timbre.FechaTimbrado);
 			parametros.put("FOLIO_FISCAL", timbre.UUID);
