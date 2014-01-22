@@ -168,8 +168,11 @@ class Venta {
 					c.setValorUnitario(det.calcularPercioConImpuesto())
 					c.setImporte(det.calcularImporteConImpuesto())
 				}
-				CuentaPredial cp=c.addNewCuentaPredial()
-				cp.setNumero(det.producto.cuentaPredial)
+				if(det.producto.cuentaPredial){
+					CuentaPredial cp=c.addNewCuentaPredial()
+					cp.setNumero(det.producto.cuentaPredial)
+				}
+				
 				
 			}
 			return document

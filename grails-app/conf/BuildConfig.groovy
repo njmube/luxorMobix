@@ -89,6 +89,8 @@ grails.project.dependency.resolution = {
 		runtime ":jasper:1.6.1"
 		//runtime ":jasper:latest"
 		
+		runtime ":database-migration:1.3.8"
+		
 		
     }
 }

@@ -52,10 +52,8 @@ class CfdiPrintUtils {
 		Emisor emisor=comprobante.getEmisor();
 		parametros.put("EMISOR_NOMBRE", 	emisor.getNombre());
 		parametros.put("EMISOR_RFC", 		emisor.getRfc());
-		String pattern="{0} {1}  {2}" +
-				"\n{3}" +
-				"\n{4}" +
-				"\n{5}  {6}";
+		String pattern="{0} {1}  {2}  {3}" +
+				"\n{4}  {5}  {6}";
 		String direccionEmisor=MessageFormat.format(pattern
 				,emisor.getDomicilioFiscal().getCalle()
 				,emisor.getDomicilioFiscal().getNoExterior()
@@ -70,14 +68,14 @@ class CfdiPrintUtils {
 				);
 		parametros.put("EMISOR_DIRECCION", direccionEmisor);
 		parametros.put("EXPEDIDO_DIRECCION", direccionEmisor);
+		parametros.put("REGIMEN",comprobante.getEmisor().getRegimenFiscalArray(0).regimen);
+	
 		
 		if (emisor.getExpedidoEn() != null){
 			TUbicacion expedido=emisor.getExpedidoEn();
 		
-			String pattern2="{0} {1}  {2}" +
-				"\n{3}" +
-				"\n{4}" +
-				"\n{5}  {6}";
+			String pattern2="{0} {1}  {2}  {3}" +
+				"\n{4}  {5}  {6}";
 			String expedidoDir=MessageFormat.format(pattern2
 				,expedido.getCalle()
 				,expedido.getNoExterior()
@@ -88,6 +86,8 @@ class CfdiPrintUtils {
 				,expedido.getEstado()
 				);
 			parametros.put("EXPEDIDO_DIRECCION", expedidoDir);
+			
+			
 		}
 			
 		

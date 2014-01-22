@@ -141,6 +141,7 @@ class VentaController {
 		println 'CfdiService: '+cfdiService.class
 		def cfdi=cfdiService.generarCfdi(venta)
 		
-		render view:'/cfdi/show',model:[cfdi:cfdi]
+		//render view:'/cfdi/show',model:[cfdiInstance:cfdi]
+		redirect controller:"cfdi",action:"show",id:cfdi.id
 	}
 }
