@@ -136,7 +136,8 @@ class Venta {
 			comprobante.setTotal(this.total)
 			comprobante.setSubTotal(this.importe)			
 			comprobante.setNoCertificado(this.empresa.numeroDeCertificado)
-			comprobante.setNumCtaPago(this.cliente.cuentaDePago)
+			if(this.cliente.cuentaDePago)
+				comprobante.setNumCtaPago(this.cliente.cuentaDePago)
 			Impuestos impuestos=comprobante.addNewImpuestos()
 			if(this.cliente.rfc=='XAXX010101000'){
 				comprobante.setSubTotal(this.total)

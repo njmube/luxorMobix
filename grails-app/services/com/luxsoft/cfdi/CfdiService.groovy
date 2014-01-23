@@ -56,15 +56,18 @@ class CfdiService {
 
 	@Transactional
     def Cfdi generarCfdi(def source) {
+		assert source,"No se puede generar un CFDI para una entidad nula"
+		def serie
+		if(source instanceof Venta)
+			serie='FAC'
+		assert serie,"Entidad no compatible con CFDI $source"
+		def cfdiFolio=CfdiFolio.findByEmisorAndSerie(source.empresa.clave,serie)
+		assert cfdiFolio," Debe registrar folio de $source.empresa.clave para la serie $serie"
+		def folio=cfdiFolio.next()
 		
 		def cfdi=source as Cfdi
 		
-		def serie='FAC'
-		def cfdiFolio=CfdiFolio.findByEmisor(source.empresa.clave)
-		assert cfdiFolio," Debe registrar folio de $source.empresa.clave para la serie FAC"
-		def folio=CfdiFolio.findByEmisor(source.empresa.clave).next()
-		
-		cfdi.serie='FAC'
+		cfdi.serie=serie
 		cfdi.folio=folio
 		
 		def ComprobanteDocument document=source as ComprobanteDocument
