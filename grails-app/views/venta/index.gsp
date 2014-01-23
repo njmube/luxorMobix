@@ -12,7 +12,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="create"><g:message code="venta.new.label"  /></g:link></li>
 			</ul>
 		</div>
 		<div id="list-venta" class="content scaffold-list" role="main">
@@ -23,16 +23,11 @@
 			<table>
 			<thead>
 					<tr>
-						<th>Folio</th>
-						<th><g:message code="venta.empresa.label" default="Empresa" /></th>
-					
-						<th><g:message code="venta.cliente.label" default="Cliente" /></th>
-					
+						<g:sortableColumn property="id" title="${message(code: 'venta.fecha.id', default: 'Folio')}" />
+						<g:sortableColumn property="empresa" title="${message(code: 'venta.empresa.label', default: 'Empresa')}" />
+						<g:sortableColumn property="cliente" title="${message(code: 'venta.cliente.label', default: 'Cliente')}" />
 						<g:sortableColumn property="fecha" title="${message(code: 'venta.fecha.label', default: 'Fecha')}" />
-					
-						<g:sortableColumn property="total" title="Total" />
-					
-						
+						<g:sortableColumn property="total" title="Total" />	
 					
 					</tr>
 				</thead>

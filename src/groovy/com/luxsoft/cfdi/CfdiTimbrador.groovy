@@ -42,7 +42,7 @@ class CfdiTimbrador {
 			cfdi.timbreFiscal=new TimbreFiscal(cfdi.getComprobante())
 			cfdi.uuid=cfdi.timbreFiscal.UUID
 			cfdi.timbrado=df.parse(cfdi.timbreFiscal.FechaTimbrado)
-			cfdi.save(failOnError:true)
+			//cfdi.save(failOnError:true)
 			return cfdi
 		} catch (Exception e) {
 			e.printStackTrace()

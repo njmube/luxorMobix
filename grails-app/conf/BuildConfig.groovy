@@ -90,7 +90,10 @@ grails.project.dependency.resolution = {
 		//runtime ":jasper:latest"
 		
 		runtime ":database-migration:1.3.8"
+		compile ":standalone:1.2.3"
 		
 		
     }
+	
+	grails.plugin.standalone.useJetty = true
 }

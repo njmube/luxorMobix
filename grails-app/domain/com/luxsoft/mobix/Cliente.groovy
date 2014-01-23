@@ -8,6 +8,7 @@ class Cliente {
 	String clave
 	String nombre
 	String rfc
+	String cuentaDePago
 	
 	Direccion direccion
 	
@@ -21,6 +22,7 @@ class Cliente {
 		nombre(blank:false,maxSize:255,unique:true)
 		rfc(blank:false,minSize:12,maxSize:13)
 		direccion(nullable:false)
+		cuentaDePago(nullable:true,maxSize:4)
     }
 	
 	String toString(){

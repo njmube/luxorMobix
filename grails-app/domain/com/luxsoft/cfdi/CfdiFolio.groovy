@@ -7,9 +7,9 @@ class CfdiFolio {
 	Long folio
 	
 	static constraints = {
-		emisor blank:false,unique:true,maxSize:13
-		serie inList:['FACTURA','NOTA_DE_CREDITO','NOTA_DE_CARGO']
-		folio nullable:false,unique:true
+		emisor blank:false,maxSize:20
+		serie blank:false,maxSize:10
+		folio nullable:false
 	}
 	
 	Long next(){

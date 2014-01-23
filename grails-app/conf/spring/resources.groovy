@@ -1,3 +1,5 @@
+import grails.util.Environment;
+
 import com.luxsoft.cfdi.CfdiCadenaBuilder;
 import com.luxsoft.cfdi.CfdiSellador;
 import com.luxsoft.cfdi.CfdiTimbrador;
@@ -6,12 +8,24 @@ import com.luxsoft.cfdi.CfdiTimbrador;
 beans = {
 	
 	cfdiCadenaBuilder(CfdiCadenaBuilder){
-		xsltFile="web-app/sat/cadenaoriginal_3_2.xslt"
 	}
+	
 	cfdiSellador(CfdiSellador){
 		cadenaBuilder=ref("cfdiCadenaBuilder")
 	}
-	cfdiTimbrador(CfdiTimbrador){
-		timbradoDePrueba=false
+	
+	Environment.executeForCurrentEnvironment {
+		development{
+			cfdiTimbrador(CfdiTimbrador){
+				timbradoDePrueba=true
+			}
+		}
+		
+		production{
+			cfdiTimbrador(CfdiTimbrador){
+				timbradoDePrueba=false
+			}
+		}
 	}
+	
 }

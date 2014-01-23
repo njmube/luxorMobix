@@ -15,7 +15,7 @@ hibernate {
 environments {
     development {
         dataSource {
-            dbCreate = '' // one of 'create', 'create-drop', 'update', 'validate', ''
+            dbCreate = 'update' // one of 'create', 'create-drop', 'update', 'validate', ''
 			url = 'jdbc:mysql://localhost/mobix?autoReconnect=true'
 			dialect = org.hibernate.dialect.MySQL5InnoDBDialect
 			driverClassName = 'com.mysql.jdbc.Driver'
@@ -50,7 +50,7 @@ environments {
 			driverClassName = 'com.mysql.jdbc.Driver'
 			username = 'root'
 			password = 'sys'
-			url = 'jdbc:mysql://10.10.1.227/impapx'
+			url = 'jdbc:mysql://10.10.1.228/mobix'
 			pooled = true
 			properties {
 			   maxActive = 3

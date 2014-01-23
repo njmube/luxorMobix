@@ -49,7 +49,8 @@
 					
 					<g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" />
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-					<g:if test="${!Cfdi.findByOrigen(ventaInstance?.id) }">
+					
+					<g:if test="${ventaInstance.total>0 && !Cfdi.findByOrigen(ventaInstance?.id) }">
 						<g:actionSubmit class="message" action="facturar" value="Facturar" />
 					</g:if>
 					

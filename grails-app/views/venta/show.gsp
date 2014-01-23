@@ -18,7 +18,7 @@
 			</ul>
 		</div>
 		<div id="show-venta" class="content scaffold-show" role="main">
-			<h1><g:message code="default.show.label" args="[entityName]" /></h1>
+			<h1>Venta: ${ventaInstance.id}</h1>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
@@ -163,7 +163,9 @@
 				<li class="fieldcontain">
 					<span id="dateCreated-label" class="property-label"><g:message code="venta.dateCreated.label" default="Date Created" /></span>
 					
-						<span class="property-value" aria-labelledby="dateCreated-label"><g:formatDate date="${ventaInstance?.dateCreated}" /></span>
+						<span class="property-value" aria-labelledby="dateCreated-label">
+							<g:formatDate date="${ventaInstance?.dateCreated}" format="dd/MM/yyyy hh:mm"  />
+						</span>
 					
 				</li>
 				</g:if>
@@ -172,7 +174,9 @@
 				<li class="fieldcontain">
 					<span id="lastUpdated-label" class="property-label"><g:message code="venta.lastUpdated.label" default="Last Updated" /></span>
 					
-						<span class="property-value" aria-labelledby="lastUpdated-label"><g:formatDate date="${ventaInstance?.lastUpdated}" /></span>
+						<span class="property-value" aria-labelledby="lastUpdated-label">
+							<g:formatDate date="${ventaInstance?.lastUpdated}" format="dd/MM/yyyy hh:mm" />
+						</span>
 					
 				</li>
 				</g:if>
@@ -207,7 +211,7 @@
 				</g:if>
 			
 			</ol>
-			<g:form url="[resource:ventaInstance, action:'delete']" method="DELETE">
+			<g:form url="[resource:ventaInstance, action:'delete']" method="POST">
 				<fieldset class="buttons">
 					<g:link class="edit" action="edit" resource="${ventaInstance}">
 						<g:message code="default.button.edit.label" default="Edit" />

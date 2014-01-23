@@ -51,15 +51,27 @@ class CfdiService {
 	def grailsApplication
 	
 	def cfdiSellador
+	
+	def cfdiTimbrador
 
 	@Transactional
     def Cfdi generarCfdi(def source) {
 		
 		def cfdi=source as Cfdi
 		
-		def ComprobanteDocument document=source as ComprobanteDocument
+		def serie='FAC'
+		def cfdiFolio=CfdiFolio.findByEmisor(source.empresa.clave)
+		assert cfdiFolio," Debe registrar folio de $source.empresa.clave para la serie FAC"
+		def folio=CfdiFolio.findByEmisor(source.empresa.clave).next()
 		
+		cfdi.serie='FAC'
+		cfdi.folio=folio
+		
+		def ComprobanteDocument document=source as ComprobanteDocument
 		Comprobante comprobante=document.getComprobante()
+		comprobante.serie=serie
+		comprobante.folio=folio
+		
 		comprobante.setSello(cfdiSellador.sellar(source.empresa.privateKey,document))
 		byte[] encodedCert=Base64.encode(source.empresa.certificado.getEncoded())
 		comprobante.setCertificado(new String(encodedCert))
@@ -76,8 +88,10 @@ class CfdiService {
 		
 		cfdi.setXml(os.toByteArray())
 		cfdi.setXmlName("$cfdi.rfc-$cfdi.serie-$cfdi.folio"+".xml")
-		
 		validarDocumento(document)
+		
+		cfdi=cfdiTimbrador.timbrar(cfdi,"PAP830101CR3", "yqjvqfofb")
+		
 		cfdi.save()
 		return cfdi
     }

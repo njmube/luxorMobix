@@ -37,6 +37,7 @@ class CfdiPrintUtils {
 		parametros.put("RECEPTOR_DIRECCION", 		getDireccionEnFormatoEstandar(comprobante.getReceptor().getDomicilio()) );
 		parametros.put("NUM_CTA_PAGO", 		comprobante.getNumCtaPago());
 		parametros.put("METODO_PAGO", 		comprobante.getMetodoDePago());
+		parametros.put("FORMA_PAGO", 		comprobante.getFormaDePago());
 		//Datos tomado de la aplicacion
 		parametros.put("IMP_CON_LETRA", 	ImporteALetra.aLetra(comprobante.getTotal()));
 		parametros['FORMA_DE_PAGO']=comprobante.formaDePago

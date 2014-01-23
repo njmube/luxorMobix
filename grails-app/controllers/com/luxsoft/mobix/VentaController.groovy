@@ -18,7 +18,7 @@ class VentaController {
 	
 	def cfdiService
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "DELETE"]
+    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 	
 	def list(){
 		redirect action:'index'
@@ -35,39 +35,32 @@ class VentaController {
 
     def create() {
 		params.tc=1.0
-		println 'Generando venta..'+params
+		//println 'Generando venta..'+params
         respond new Venta(params)
     }
 
     @Transactional
     def save() {
-		println 'Salvando ventas Parametros: '+params.moneda
+		//println 'Salvando ventas Parametros: '+params.moneda
 		def ventaInstance=new Venta()
 		bindData(ventaInstance,params,[exclude: 'moneda'])
 		ventaInstance.importe=0.0
 		ventaInstance.descuentos=0.0
 		ventaInstance.vencimiento=new Date()
 		ventaInstance.moneda=Currency.getInstance(params.moneda)
-		//ventaInstance.moneda=MonedaUtils.PESOS
 		ventaInstance.validate()
-		println 'Venta por salvar: '+ventaInstance.properties
         if (ventaInstance.hasErrors()) {
             respond ventaInstance.errors, view:'create'
             return
         }
-
         ventaInstance.save flush:true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'ventaInstance.label', default: 'Venta'), ventaInstance.id])
-                redirect ventaInstance
-            }
-            '*' { respond ventaInstance, [status: CREATED] }
-        }
+		flash.message = message(code: 'default.created.message', args: [message(code: 'ventaInstance.label', default: 'Venta'), ventaInstance.id])
+		redirect action:'edit',id:ventaInstance.id
+        
     }
 
     def edit(long id) {
+		println 'Editando venta: '+id
 		def ventaInstance=Venta.findById(id)
 		if(ventaInstance==null){
 			notFound()
@@ -137,11 +130,7 @@ class VentaController {
 			notFound()
 			return
 		}
-		println 'Mandando facturar venta: '+venta.id
-		println 'CfdiService: '+cfdiService.class
 		def cfdi=cfdiService.generarCfdi(venta)
-		
-		//render view:'/cfdi/show',model:[cfdiInstance:cfdi]
 		redirect controller:"cfdi",action:"show",id:cfdi.id
 	}
 }

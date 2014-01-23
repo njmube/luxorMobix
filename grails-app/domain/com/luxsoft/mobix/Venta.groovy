@@ -106,8 +106,6 @@ class Venta {
 				tipo:'FACTURA'
 				,tipoDeCfdi:'I'
 				,fecha:fecha
-				,serie:'VENTA'
-				,folio:id.toString()
 				,origen:id.toString()
 				,emisor:empresa.clave
 				,receptor:cliente.nombre
@@ -132,15 +130,13 @@ class Venta {
 			comprobante.setDescuento(this.descuentos)
 			comprobante.setTipoDeComprobante(TipoDeComprobante.INGRESO)
 			comprobante.setLugarExpedicion(this.empresa.direccion.pais)
-			//comprobante.addNewEmisor()
+			
 			Emisor emisor=CFDIUtils.registrarEmisor(comprobante, empresa)
 			Receptor receptor=CFDIUtils.registrarReceptor(comprobante, this.cliente)
 			comprobante.setTotal(this.total)
-			comprobante.setSubTotal(this.importe)
-			comprobante.setSerie('VENTA')
-			comprobante.setFolio(this.id.toString())
+			comprobante.setSubTotal(this.importe)			
 			comprobante.setNoCertificado(this.empresa.numeroDeCertificado)
-			
+			comprobante.setNumCtaPago(this.cliente.cuentaDePago)
 			Impuestos impuestos=comprobante.addNewImpuestos()
 			if(this.cliente.rfc=='XAXX010101000'){
 				comprobante.setSubTotal(this.total)

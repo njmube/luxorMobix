@@ -5,4 +5,8 @@ import org.springframework.security.access.annotation.Secured;
 @Secured(['ROLE_ADMIN'])
 class CfdiFolioController {
     static scaffold = true
+	
+	def list(){
+		redirect action:'index'
+	}
 }

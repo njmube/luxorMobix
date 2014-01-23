@@ -129,6 +129,6 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/favicon.ico':                ['permitAll'],
 	'/jasper/**':					  ['permitAll']
 ]
-grails.plugin.databasemigration.updateOnStart = true
-grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']
+grails.plugin.databasemigration.updateOnStart = false
+//grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']
 

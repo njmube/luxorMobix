@@ -39,7 +39,7 @@
 						<f:field property="tipo" input-disabled="true"/>
 						<f:field property="formaDePago"/>
 						<f:field property="comentario"/>
-						<f:field property="partidas" label="Partidas"/>
+						
 						
 					</f:with>
 				</fieldset>
