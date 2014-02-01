@@ -31,7 +31,18 @@
 				<g:hiddenField name="id" value="${empresaInstance?.id}" />
 				<g:hiddenField name="version" value="${empresaInstance?.version}" />
 				<fieldset class="form">
-					<f:all bean="empresaInstance"/>
+					<f:with bean="empresaInstance">
+						<f:field property="clave"/>
+						<f:field property="nombre"/>
+						<f:field property="rfc"/>
+						<f:field property="regimen"/>
+						<f:field property="numeroDeCertificado"/>
+						<f:field property="certificadoDigital"/>
+						<f:field property="llavePrivada"/>
+						<f:field property="certificadoDigitalPfx"/>
+						<f:field property="passwordPfx"/>
+						<f:field property="xmlDirectory" label="Directorio para XMLs"/>
+					</f:with>
 				</fieldset>
 				<fieldset class="buttons">
 					<g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" />

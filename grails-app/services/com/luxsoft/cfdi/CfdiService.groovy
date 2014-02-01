@@ -35,6 +35,9 @@ import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlValidationError;
 import org.bouncycastle.util.encoders.Base64;
 
+import com.edicom.ediwinws.cfdi.client.CfdiClient;
+import com.edicom.ediwinws.cfdi.utils.Base64Util;
+import com.edicom.ediwinws.service.cfdi.CancelaResponse;
 import com.luxsoft.mobix.Cliente;
 import com.luxsoft.mobix.Direccion;
 import com.luxsoft.mobix.Empresa;
@@ -135,6 +138,50 @@ class CfdiService {
 		options.setErrorListener(errors);
 		node.validate(options);
 		return errors;
+		
+	}
+	
+	@Transactional
+	public cancelar(Cfdi cfdi){
+		println 'Mandando cancelar CFDI: '+cfdi.uuid
+		//Cfdi cfdi=Cfdi.findByUuid(uuid)
+		assert cfdi.getTimbrado(),"Debe estar timbrado: "+cfdi
+		Empresa empresa=Empresa.findByClave(cfdi.emisor)
+		assert empresa,"Debe existir la empresa con rfc: "+cfdi.rfc
+		
+		//def uuidList=new String[1]{cfdi.uuid}
+		def  uuidList=[cfdi.uuid] as String[]
+		File dir=new File(System.properties['user.home'])
+		assert dir.exists(),'Debe existir el directorio: '+dir
+		assert dir.isDirectory()
+		
+		CfdiClient client=new CfdiClient()
+		
+		
+		CancelaResponse res=client.cancelCfdi(
+					"PAP830101CR3"
+					,"yqjvqfofb"
+					, empresa.getRfc()
+					, uuidList
+					, empresa.getCertificadoDigitalPfx()
+					, empresa.getPasswordPfx())
+			cfdi.comentario='CANCELADO '
+			
+		byte[] aka=Base64Util.decodificaTextoB64(res.getText().getBytes())
+		//println' Aka: '+new String(aka)
+		String name=cfdi.emisor+'-'+cfdi.serie+'-'+cfdi.folio
+		
+		File akaFile=new File(dir,name+'_CANCELACION_AKA.xml')
+		akaFile.setText(new String(aka))
+		
+		File file1=new File(dir,name+'_CANCELACION_RES.txt')
+		file1.setText(res.getText())
+		
+		
+		
+		
+		
+		return cfdi
 		
 	}
 	

@@ -21,6 +21,7 @@ class CfdiController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 	
 	def cfdiTimbrador
+	def cfdiService
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -133,5 +134,17 @@ class CfdiController {
 		response.setHeader("Content-disposition", "attachment; filename=\"$cfdi.xmlName\"")
 		response.outputStream << cfdi.getComprobanteDocument().newInputStream()
 		
+	}
+	
+	@Transactional
+	def cancelar(long id){
+		Cfdi cfdi=Cfdi.findById(id)
+		if(cfdi==null){
+			notFound()
+			return
+		}
+		println 'Cancelando cfdi: '+id
+		cfdi=cfdiService.cancelar(cfdi)
+		render view:'showCancelado',model:[cfdiInstance:cfdi]
 	}
 }

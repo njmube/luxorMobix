@@ -47,6 +47,8 @@ spring-*/src/main/java/META-INF/MANIFEST.MF
 *.iml
 *.ipr
 *.iws
+mobix*.jar
+*.war
 out
 test-output
 atlassian-ide-plugin.xml

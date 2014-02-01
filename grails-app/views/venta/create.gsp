@@ -32,7 +32,7 @@
 					<f:with bean="${ ventaInstance}">
 						<f:field property="empresa"/>
 						<f:field property="cliente"/>
-						<f:field property="fecha"/>
+						<f:field property="fecha" />
 						<f:field property="moneda"/>
 						
 						<f:field property="tc"/>

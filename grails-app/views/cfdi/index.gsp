@@ -31,6 +31,7 @@
 						<g:sortableColumn property="receptor" title="${message(code: 'cfdi.serie.label', default: 'Receptor')}" />
 						<g:sortableColumn property="uuid" title="${message(code: 'cfdi.uuid.label', default: 'Uuid')}" />
 						<g:sortableColumn property="timbrado" title="${message(code: 'cfdi.timbrado.label', default: 'Timbrado')}" />
+						<g:sortableColumn property="comentario" title="${message(code: 'cfdi.comentario.label', default: 'Comentario')}" />
 					
 					</tr>
 				</thead>
@@ -44,6 +45,7 @@
 						<td>${fieldValue(bean: cfdiInstance, field: "receptor")}</td>
 						<td>${fieldValue(bean: cfdiInstance, field: "uuid")}</td>
 						<td><g:formatDate date="${cfdiInstance.timbrado}" /></td>
+						<td>${fieldValue(bean: cfdiInstance, field: "comentario")}</td>
 					</tr>
 				</g:each>
 				</tbody>

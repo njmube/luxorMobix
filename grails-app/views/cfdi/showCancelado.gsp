@@ -23,6 +23,15 @@
 			</g:if>
 			<ol class="property-list cfdi">
 			
+				<g:if test="${cfdiInstance?.comentario}">
+				<li class="fieldcontain">
+					<span id="comentario-label" class="property-label"><g:message code="cfdi.comentario.label" default="Comentario" /></span>
+					
+						<span class="property-value" aria-labelledby="comentario-label"><g:fieldValue bean="${cfdiInstance}" field="comentario"/></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${cfdiInstance?.serie}">
 				<li class="fieldcontain">
 					<span id="serie-label" class="property-label"><g:message code="cfdi.serie.label" default="Serie" /></span>
@@ -147,14 +156,7 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${cfdiInstance?.comentario}">
-				<li class="fieldcontain">
-					<span id="comentario-label" class="property-label"><g:message code="cfdi.comentario.label" default="Comentario" /></span>
-					
-						<span class="property-value" aria-labelledby="comentario-label"><g:fieldValue bean="${cfdiInstance}" field="comentario"/></span>
-					
-				</li>
-				</g:if>
+				
 			
 				<g:if test="${cfdiInstance?.url}">
 				<li class="fieldcontain">
@@ -229,31 +231,8 @@
 				</g:if>
 			
 			</ol>
-			<fieldset class="buttons">
-				<g:jasperReport
-					controller="cfdi"
-					action="imprimirCfdi"
-					jasper="CFDI" 
-					format="PDF" 
-					name="Imprimir CFDI">
-							<g:hiddenField name="id" value="${cfdiInstance.id}"/>
-				</g:jasperReport>
-			</fieldset>
-			<g:form url="[resource:cfdiInstance, action:'delete']" method="DELETE">
-				<fieldset class="buttons">
-					<g:link class="edit" action="timbrar" resource="${cfdiInstance}">Timbrar</g:link>
-					<g:link class="edit" action="mostrarXml" resource="${cfdiInstance}">XML</g:link>
-					<g:link class="create" action="descargarXml" resource="${cfdiInstance}">Descargar XML</g:link>
-					<g:if test="${cfdiInstance.uuid }">
-						<g:link  action="cancelar"  
-							onclick="return confirm('Cancelar CFDI?');" id="${cfdiInstance.id }">Cancelar</g:link>
-					</g:if>
-					<g:else>
-						<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-					</g:else>
-					
-				</fieldset>
-			</g:form>
+			
+			
 		</div>
 	</body>
 </html>

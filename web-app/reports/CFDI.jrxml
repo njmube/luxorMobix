@@ -3,8 +3,8 @@
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="50"/>
+	<property name="ireport.x" value="14"/>
+	<property name="ireport.y" value="242"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
@@ -84,12 +84,12 @@
 				<line>
 					<reportElement uuid="cc2afd38-a881-4b92-a491-3a62c945cb1d" key="line-6" x="0" y="0" width="580" height="2" forecolor="#999999" backcolor="#CCCCCC"/>
 				</line>
-				<textField pattern="" isBlankWhenNull="true">
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
 					<reportElement uuid="4ff0c9da-1430-498f-a473-dcd041738c46" key="textField-91" x="506" y="19" width="74" height="15"/>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{DESCUENTOS}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[new BigDecimal($P{DESCUENTOS})]]></textFieldExpression>
 				</textField>
 				<textField pattern="" isBlankWhenNull="false">
 					<reportElement uuid="73e9ae8c-912d-4843-9047-988b982901bd" key="textField-92" x="478" y="49" width="19" height="15">
@@ -109,12 +109,12 @@
 					</textElement>
 					<text><![CDATA[   I.V.A.]]></text>
 				</staticText>
-				<textField pattern="" isBlankWhenNull="true">
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
 					<reportElement uuid="54a2b219-ddf8-4349-8f74-fee2daa4dd92" key="textField-93" x="506" y="79" width="74" height="15"/>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{TOTAL}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[new BigDecimal($P{TOTAL})]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement uuid="089a1cce-9a67-4cb9-8266-5c0c4df91db9" key="staticText-149" x="448" y="34" width="58" height="15"/>
@@ -123,19 +123,19 @@
 					</textElement>
 					<text><![CDATA[SUBTOTAL 1]]></text>
 				</staticText>
-				<textField pattern="" isBlankWhenNull="true">
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
 					<reportElement uuid="56ff55b3-b8d0-485a-b629-8338852be4d6" key="textField-104" x="506" y="49" width="74" height="15"/>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{IVA}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[new BigDecimal($P{IVA})]]></textFieldExpression>
 				</textField>
-				<textField pattern="" isBlankWhenNull="true">
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
 					<reportElement uuid="5fb627e8-7691-45e5-9d83-15907578368b" key="textField-105" x="506" y="34" width="74" height="15"/>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{IMPORTE_BRUTO}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[new BigDecimal($P{IMPORTE_BRUTO})]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement uuid="aa360142-f373-4984-a1cb-b2c6c5be3358" key="staticText-150" x="448" y="79" width="58" height="15"/>
