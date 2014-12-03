@@ -29,12 +29,13 @@ class VentaDetController {
 	
 	def agregarPartida(VentaDet det){
 		def venta=det.venta
-		println 'Agregando partida a: '+venta.partidas.size()
-		
+		//println 'Agregando partida a: '+venta.partidas.size()
+		println "Agrgando partida Precio:${det.precio} Cantidad: ${det.cantidad}  Importe:${det.importe}"
 		det.actualizarImportes()
 		det.descuento=0
 		det.subtotal=0
 		det.impuesto=MonedaUtils.calcularImpuesto(det.importe, det.impuestoTasa)
+		println "Agrgando partida Precio:${det.precio} Cantidad: ${det.cantidad}  Importe:${det.importe}"
 		det.costo=0
 		det.validate()
 		if(det.hasErrors()){

@@ -158,7 +158,7 @@ class Venta {
 				c.setCantidad(det.cantidad.abs())
 				c.setUnidad(det.producto.unidad)
 				c.setNoIdentificacion(det.id.toString())
-				c.setDescripcion(det.producto.descripcion)
+				c.setDescripcion(det.producto.descripcion+"  "+det.comentario)
 				c.setValorUnitario(det.precio);
 				c.setImporte(det.importe);
 				if(cliente.rfc=='XAXX010101000'){
