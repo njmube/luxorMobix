@@ -122,6 +122,7 @@ class VentaController {
         }
     }
 	
+
 	
 	@Transactional
 	def facturar(long id){

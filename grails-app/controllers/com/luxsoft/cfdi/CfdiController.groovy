@@ -12,7 +12,7 @@ import com.luxsoft.mobix.Empresa;
 import com.luxsoft.mobix.Venta;
 
 import grails.transaction.Transactional
-
+import com.luxsoft.utils.ImporteALetra;
 
 @Transactional(readOnly = true)
 @Secured(['ROLE_ADMIN'])
@@ -124,7 +124,14 @@ class CfdiController {
 		
 	}
 	
+	def importeALetra(){
+		println "Convirtiendo a Letra"
+	 ImporteALetra.aLetra(new BigDecimal(999999999.00) )
+	
+}
+	
 	def descargarXml(long id){
+		println "Descargando xml"
 		Cfdi cfdi=Cfdi.findById(id)
 		if(cfdi==null){
 			notFound()

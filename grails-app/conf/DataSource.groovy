@@ -16,7 +16,7 @@ environments {
     development {
         dataSource {
             dbCreate = 'update' // one of 'create', 'create-drop', 'update', 'validate', ''
-			url = 'jdbc:mysql://localhost/mobix?autoReconnect=true'
+			url = 'jdbc:mysql://10.10.1.228/mobix?autoReconnect=true'
 			//url = 'jdbc:mysql://10.10.1.228/mobix'
 			dialect = org.hibernate.dialect.MySQL5InnoDBDialect
 			driverClassName = 'com.mysql.jdbc.Driver'

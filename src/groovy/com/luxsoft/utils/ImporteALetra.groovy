@@ -1,11 +1,16 @@
 package com.luxsoft.utils
 
+import java.math.BigDecimal;
 import java.text.MessageFormat;
 
 import org.apache.commons.lang.StringUtils;
 
 
+
+
 class ImporteALetra {
+	
+
 	
 	private int flag;
 	private int numero;
@@ -71,56 +76,56 @@ class ImporteALetra {
 	
 	private String decena(def numero){
 	
-		if (numero >= 90 && numero <= 99)
+		if (numero >= 90 && numero < 100)
 		{
 			num_letra = "NOVENTA ";
 			if (numero > 90)
 				num_letra = num_letra.concat("Y ").concat(unidad(numero - 90));
 		}
-		else if (numero >= 80 && numero <= 89)
+		else if (numero >= 80 && numero < 90)
 		{
 			num_letra = "OCHENTA ";
 			if (numero > 80)
 				num_letra = num_letra.concat("Y ").concat(unidad(numero - 80));
 		}
-		else if (numero >= 70 && numero <= 79)
+		else if (numero >= 70 && numero < 80)
 		{
 			num_letra = "SETENTA ";
 			if (numero > 70)
 				num_letra = num_letra.concat("Y ").concat(unidad(numero - 70));
 		}
-		else if (numero >= 60 && numero <= 69)
+		else if (numero >= 60 && numero < 70)
 		{
 			num_letra = "SESENTA ";
 			if (numero > 60)
 				num_letra = num_letra.concat("Y ").concat(unidad(numero - 60));
 		}
-		else if (numero >= 50 && numero <= 59)
+		else if (numero >= 50 && numero < 60)
 		{
 			num_letra = "CINCUENTA ";
 			if (numero > 50)
 				num_letra = num_letra.concat("Y ").concat(unidad(numero - 50));
 		}
-		else if (numero >= 40 && numero <= 49)
+		else if (numero >= 40 && numero < 50)
 		{
 			num_letra = "CUARENTA ";
 			if (numero > 40)
 				num_letra = num_letra.concat("Y ").concat(unidad(numero - 40));
 		}
-		else if (numero >= 30 && numero <= 39)
+		else if (numero >= 30 && numero < 40)
 		{
 			num_letra = "TREINTA ";
 			if (numero > 30)
 				num_letra = num_letra.concat("Y ").concat(unidad(numero - 30));
 		}
-		else if (numero >= 20 && numero <= 29)
+		else if (numero >= 20 && numero < 30)
 		{
 			if (numero == 20)
 				num_letra = "VEINTE ";
 			else
 				num_letra = "VEINTI".concat(unidad(numero - 20));
 		}
-		else if (numero >= 10 && numero <= 19)
+		else if (numero >= 10 && numero < 20)
 		{
 			int amount=new Integer((int) numero);
 			switch (amount){
@@ -185,55 +190,55 @@ class ImporteALetra {
 	private String centena(def numero){
 		if (numero >= 100)
 		{
-			if (numero >= 900 && numero <= 999)
+			if (numero >= 900 && numero < 1000)
 			{
 				num_letra = "NOVECIENTOS ";
 				if (numero > 900)
 					num_letra = num_letra.concat(decena(numero - 900));
 			}
-			else if (numero >= 800 && numero <= 899)
+			else if (numero >= 800 && numero < 900)
 			{
 				num_letra = "OCHOCIENTOS ";
 				if (numero > 800)
 					num_letra = num_letra.concat(decena(numero - 800));
 			}
-			else if (numero >= 700 && numero <= 799)
+			else if (numero >= 700 && numero < 800)
 			{
 				num_letra = "SETECIENTOS ";
 				if (numero > 700)
 					num_letra = num_letra.concat(decena(numero - 700));
 			}
-			else if (numero >= 600 && numero <= 699)
+			else if (numero >= 600 && numero < 700)
 			{
 				num_letra = "SEISCIENTOS ";
 				if (numero > 600)
 					num_letra = num_letra.concat(decena(numero - 600));
 			}
-			else if (numero >= 500 && numero <= 599)
+			else if (numero >= 500 && numero < 600)
 			{
 				num_letra = "QUINIENTOS ";
 				if (numero > 500)
 					num_letra = num_letra.concat(decena(numero - 500));
 			}
-			else if (numero >= 400 && numero <= 499)
+			else if (numero >= 400 && numero < 500)
 			{
 				num_letra = "CUATROCIENTOS ";
 				if (numero > 400)
 					num_letra = num_letra.concat(decena(numero - 400));
 			}
-			else if (numero >= 300 && numero <= 399)
+			else if (numero >= 300 && numero < 400)
 			{
 				num_letra = "TRESCIENTOS ";
 				if (numero > 300)
 					num_letra = num_letra.concat(decena(numero - 300));
 			}
-			else if (numero >= 200 && numero <= 299)
+			else if (numero >= 200 && numero < 300)
 			{
 				num_letra = "DOSCIENTOS ";
 				if (numero > 200)
 					num_letra = num_letra.concat(decena(numero - 200));
 			}
-			else if (numero >= 100 && numero <= 199)
+			else if (numero >= 100 && numero < 200)
 			{
 				if (numero == 100)
 					num_letra = "CIEN ";
@@ -328,6 +333,7 @@ class ImporteALetra {
 
 	
 	public String convertirLetras(final BigDecimal importe){
+		println "El importe a convertir en letras es: " +importe
 		double  val1=importe.abs().doubleValue();
 		int entero=importe.intValue();
 		double cent=val1-(double)entero;
@@ -336,6 +342,7 @@ class ImporteALetra {
 		final String ok=StringUtils.leftPad(svalor,2,'0');
 		num_letras = decmillon(importe.intValue());
 		num_letras+=" PESOS {0}/100 M.N.";
+		println "Importe con letra  " +num_letras
 		return MessageFormat.format(num_letras, ok);
 	}
 	
@@ -346,5 +353,6 @@ class ImporteALetra {
 			INSTANCE=new ImporteALetra();
 		return INSTANCE.convertirLetras(importe);
 	}
+
 
 }
